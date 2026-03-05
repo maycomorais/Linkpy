@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestão de Sistemas</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="login-container">
+        <form id="form-login">
+            <h2>Acesso LinkPy</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <div id="admin-wrapper" class="hidden">
+        <header>
+            <h1>Painel de Controle - Software House</h1>
+            <nav>
+                <button id="btn-novo-cliente">Novo Cliente</button>
+                <button id="btn-financeiro">Financeiro</button>
+                <button id="btn-logout" onclick="logout()">Sair</button>
+            </nav>
+        </header>
+
+        <main>
+            <section id="lista-clientes">
+                <header>
+                    <h2>Meus Clientes</h2>
+                    <input type="text" id="busca-cliente" placeholder="Filtrar por nome ou empresa...">
+                </header>
+                <div id="grid-clientes" class="grid-container"></div>
+            </section>
+
+            </main>
+    </div>
+</body>
+</html>
