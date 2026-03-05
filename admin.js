@@ -1,6 +1,7 @@
+const APP_VERSION = "1.0.1";
 // Configuração do Supabase (Substitua pelos seus dados)
-const supabaseUrl = 'SUA_URL_AQUI';
-const supabaseKey = 'SUA_KEY_AQUI';
+const supabaseUrl = 'https://cwauzlddxfalcjcryegb.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3YXV6bGRkeGZhbGNqY3J5ZWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MzUzMzYsImV4cCI6MjA4ODMxMTMzNn0.2X5A-GqrE9iDtq36G8xbcRE3Ve4KuJFmdQildPr1UeE';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // DOM Elements
@@ -69,7 +70,63 @@ async function login(e) {
     }
 }
 
-const APP_VERSION = "1.0.1";
+// Lógica de Login integrada com a sua UI
+async function handleLogin(e) {
+    e.preventDefault(); // Impede o recarregamento da página
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    console.log("Tentando login com:", email);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        alert("Erro no login: " + error.message);
+    } else {
+        console.log("Login realizado com sucesso!");
+        // Salva a sessão e limpa a tela de login
+        document.getElementById('login-container').classList.add('hidden');
+        document.getElementById('admin-wrapper').classList.remove('hidden');
+        
+        // Agora sim carrega os dados
+        fetchClientes();
+    }
+}
+
+// 3. Inicialização Protegida
+document.addEventListener('DOMContentLoaded', async () => {
+    // Verifica versão (LocalStorage/Cache)
+    const lastVersion = localStorage.getItem('linkpy_version');
+    if (lastVersion !== APP_VERSION) {
+        localStorage.clear();
+        localStorage.setItem('linkpy_version', APP_VERSION);
+    }
+
+    // Verifica se já existe sessão ativa
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (session) {
+        document.getElementById('login-container').classList.add('hidden');
+        document.getElementById('admin-wrapper').classList.remove('hidden');
+        fetchClientes();
+    }
+
+    // Listener do Formulário
+    const loginForm = document.getElementById('form-login');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkAppVersion();
+    const loginForm = document.getElementById('form-login');
+    if(loginForm) loginForm.addEventListener('submit', handleLogin);
+});
 
 // Verificação de Versão e Cache
 function checkAppVersion() {
@@ -80,26 +137,3 @@ function checkAppVersion() {
         console.log("Versão atualizada: Cache limpo.");
     }
 }
-
-// Lógica de Login integrada com a sua UI
-async function handleLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
-        alert("Erro no login: " + error.message);
-    } else {
-        document.getElementById('login-container').classList.add('hidden');
-        document.getElementById('admin-wrapper').classList.remove('hidden');
-        fetchClientes();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    checkAppVersion();
-    const loginForm = document.getElementById('form-login');
-    if(loginForm) loginForm.addEventListener('submit', handleLogin);
-});
