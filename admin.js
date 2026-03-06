@@ -3,7 +3,7 @@ const APP_VERSION = "1.0.6";
 // Configuração do Supabase
 const supabaseUrl = 'https://cwauzlddxfalcjcryegb.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3YXV6bGRkeGZhbGNqY3J5ZWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MzUzMzYsImV4cCI6MjA4ODMxMTMzNn0.2X5A-GqrE9iDtq36G8xbcRE3Ve4KuJFmdQildPr1UeE';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // DOM Elements
 const grid = document.getElementById('grid-clientes');
@@ -23,7 +23,7 @@ const verificarAlerta = (dataVencimento) => {
 
 async function fetchClientes() {
     console.log("Buscando clientes...");
-    const { data: clientes, error } = await supabase.from('clientes').select('*');
+    const { data: clientes, error } = await supabaseClient.from('clientes').select('*');
     if (error) {
         console.error("Erro ao buscar clientes:", error);
         return;
@@ -49,7 +49,7 @@ async function handleLogin(e) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
     if (error) {
         alert("Erro no login: " + error.message);
@@ -65,7 +65,7 @@ function showAdmin() {
 }
 
 window.logout = async () => {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     location.reload();
 };
 
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // 2. Verificar Sessão Ativa
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
         showAdmin();
     }
