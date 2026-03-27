@@ -1,144 +1,126 @@
+/* ============================================================
+   LinkPY — index.css
+   ✅ Fix [Baixo]: blocos :root, body e header duplicados removidos.
+   Os valores foram mesclados mantendo as propriedades mais completas.
+   ============================================================ */
+
 :root {
-    --primary: #0052cc;
-    --dark: #091e42;
-    --light: #f4f5f7;
-    --accent: #00c7e4;
+  --primary: #0052cc;
+  --dark:    #091e42;
+  --light:   #f4f5f7;
+  --accent:  #00c7e4;
+  --gray:    #f4f5f7;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    color: var(--dark);
-    background-color: #fff;
-    margin: 0;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: #fff;
+  margin: 0;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 10%;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 10%;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.logo { font-size: 1.8rem; font-weight: bold; color: var(--dark); }
-.logo span { color: var(--primary); }
+.logo        { font-size: 1.8rem; font-weight: bold; color: var(--dark); }
+.logo span   { color: var(--primary); }
 
 .hero {
-    padding: 100px 10%;
-    text-align: center;
-    background: linear-gradient(135deg, var(--light) 0%, #e3e9ff 100%);
+  padding: 100px 10%;
+  text-align: center;
+  background: linear-gradient(135deg, var(--light) 0%, #e3e9ff 100%);
 }
 
 .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
 
 .grid-servicios {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 4rem 10%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 4rem 10%;
 }
 
 article {
-    padding: 2rem;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
 }
 
 article:hover { transform: translateY(-10px); }
 
 .btn-primary {
-    background: var(--primary);
-    color: white;
-    padding: 0.8rem 2rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
+  background: var(--primary);
+  color: white;
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
 }
-
-:root {
-    --primary: #0052cc;
-    --accent: #00c7e4;
-    --dark: #091e42;
-    --gray: #f4f5f7;
-}
-
-body {
-    font-family: 'Inter', system-ui, sans-serif;
-    margin: 0;
-    color: var(--dark);
-    background: #fff;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 10%;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.logo { font-size: 1.8rem; font-weight: bold; }
-.logo span { color: var(--primary); }
 
 section { padding: 4rem 10%; text-align: center; }
 
-/* Grid Portfolio */
+/* ── Portfolio ── */
 .grid-portfolio {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .card-cliente {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border: 1px solid var(--gray);
-    padding: 1rem;
-    border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border: 1px solid var(--gray);
+  padding: 1rem;
+  border-radius: 12px;
 }
 
 .card-cliente:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .card-cliente img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    object-fit: contain;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
-/* Video Responsive */
+/* ── Vídeo Responsivo ── */
 .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
-    height: 0;
-    max-width: 850px;
-    margin: 0 auto;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 .video-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border-radius: 15px;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: 15px;
 }
 
-/* Provas Sociais */
+/* ── Provas Sociais ── */
 .grid-pruebas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .prueba-social img {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }

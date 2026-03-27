@@ -5,13 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Financeiro — LinkPY</title>
   <meta name="robots" content="noindex, nofollow" />
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src  'self' https://cdn.jsdelivr.net;
+    style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src    https://fonts.gstatic.com;
+    connect-src 'self' https://cwauzlddxfalcjcryegb.supabase.co https://cdn.jsdelivr.net;
+    img-src     'self' data:;
+    object-src  'none';
+    base-uri    'self';
+  " />
+
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='16' font-weight='800' font-family='sans-serif' fill='white'>LP</text></svg>" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="admin.css" />
   <link rel="stylesheet" href="financeiro.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -38,13 +51,18 @@
   <!-- ══════════════ APP ══════════════ -->
   <div id="fin-wrapper" class="hidden">
 
-    <!-- Header -->
     <header>
       <div class="header-left">
         <a href="admin.html" class="btn-back" title="Voltar ao painel">← Painel</a>
         <h1>💰 Financeiro</h1>
       </div>
       <nav class="header-right">
+        <div class="taxa-strip" id="taxa-strip" title="Cotações com spread MoneyGram (~6%)">
+          <span class="taxa-item" id="taxa-usd">$ 1 USD = ₲ —</span>
+          <span class="taxa-sep">·</span>
+          <span class="taxa-item" id="taxa-brl">R$ 1 BRL = ₲ —</span>
+          <span class="taxa-atualizado" id="taxa-atualizado"></span>
+        </div>
         <button id="btn-exportar" class="btn-secondary">⬇ Exportar</button>
         <button id="btn-logout" class="btn-secondary">Sair</button>
       </nav>
@@ -53,25 +71,34 @@
     <!-- Abas -->
     <div class="tabs-bar" role="tablist">
       <button class="tab-btn active" data-tab="dashboard" role="tab" aria-selected="true">📊 Dashboard</button>
-      <button class="tab-btn" data-tab="cobrancas"  role="tab" aria-selected="false">📋 Cobranças</button>
+      <button class="tab-btn" data-tab="cobrancas"  role="tab" aria-selected="false">💵 Cobranças</button>
       <button class="tab-btn" data-tab="despesas"   role="tab" aria-selected="false">📤 Despesas</button>
       <button class="tab-btn" data-tab="propostas"  role="tab" aria-selected="false">📝 Propostas</button>
     </div>
 
     <main class="fin-main">
 
-      <!-- ─── ABA DASHBOARD ─── -->
-      <section id="tab-dashboard" class="tab-panel" role="tabpanel">
+      <!-- ── DASHBOARD ── -->
+      <div id="tab-dashboard" class="tab-panel">
 
-        <!-- KPIs -->
-        <div class="kpi-grid" id="kpi-grid">
+        <!-- Toggle de moeda dos KPIs -->
+        <div class="kpi-header">
+          <span class="kpi-header-label">Visão Geral</span>
+          <div class="kpi-currency-toggle" role="group" aria-label="Moeda de exibição">
+            <button class="kpi-toggle-btn active" data-currency="PYG">₲ PYG</button>
+            <button class="kpi-toggle-btn" data-currency="BRL">R$ BRL</button>
+            <button class="kpi-toggle-btn" data-currency="USD">$ USD</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
           <div class="kpi-card kpi-receber">
             <div class="kpi-label">A Receber</div>
             <div class="kpi-value" id="kpi-a-receber">—</div>
             <div class="kpi-sub" id="kpi-a-receber-qtd"></div>
           </div>
           <div class="kpi-card kpi-recebido">
-            <div class="kpi-label">Recebido (mês)</div>
+            <div class="kpi-label">Recebido (Mês)</div>
             <div class="kpi-value" id="kpi-recebido">—</div>
             <div class="kpi-sub" id="kpi-recebido-qtd"></div>
           </div>
@@ -81,75 +108,93 @@
             <div class="kpi-sub" id="kpi-atrasado-qtd"></div>
           </div>
           <div class="kpi-card kpi-despesas">
-            <div class="kpi-label">Despesas (mês)</div>
+            <div class="kpi-label">Despesas (Mês)</div>
             <div class="kpi-value" id="kpi-despesas">—</div>
             <div class="kpi-sub" id="kpi-despesas-qtd"></div>
           </div>
+          <div class="kpi-card kpi-lucro">
+            <div class="kpi-label">Lucro Líquido (Mês)</div>
+            <div class="kpi-value" id="kpi-lucro">—</div>
+            <div class="kpi-sub" id="kpi-lucro-qtd"></div>
+          </div>
         </div>
 
-        <!-- Gráfico + lista recente -->
+        <!-- Painel de clientes em risco de suspensão -->
+        <div class="risco-panel" id="risco-panel">
+          <div class="risco-panel-header">
+            <span>⚡ Clientes em Risco / Suspensos Automaticamente</span>
+            <span id="risco-count-badge" class="risco-count-badge hidden"></span>
+          </div>
+          <div id="painel-risco" class="risco-lista">
+            <div class="risco-ok">Carregando...</div>
+          </div>
+        </div>
+
         <div class="dashboard-grid">
           <div class="chart-card">
-            <div class="card-titulo">Receita Mensal — últimos 6 meses</div>
-            <div class="chart-wrap">
-              <canvas id="chart-receita" aria-label="Gráfico de receita mensal" role="img"></canvas>
-            </div>
+            <div class="card-titulo">Receita vs Despesas — Últimos 6 Meses (em ₲ PYG)</div>
+            <div class="chart-wrap"><canvas id="chart-receita"></canvas></div>
           </div>
           <div class="recentes-card">
             <div class="card-titulo">Próximos Vencimentos</div>
-            <div id="lista-proximos" class="lista-recentes"></div>
+            <div class="lista-recentes" id="lista-proximos"></div>
           </div>
         </div>
+      </div>
 
-      </section>
-
-      <!-- ─── ABA COBRANÇAS ─── -->
-      <section id="tab-cobrancas" class="tab-panel hidden" role="tabpanel">
+      <!-- ── COBRANÇAS ── -->
+      <div id="tab-cobrancas" class="tab-panel hidden">
         <div class="toolbar-fin">
-          <input type="search" id="busca-cobrancas" placeholder="Buscar cliente ou descrição..." class="search-fin" />
+          <input type="search" id="busca-cobrancas" class="search-fin" placeholder="Buscar por descrição..." />
+          <select id="filtro-cliente-cob" class="select-fin" style="min-width:160px">
+            <option value="">Todos os clientes</option>
+          </select>
           <select id="filtro-status-cob" class="select-fin">
-            <option value="">Todos os status</option>
+            <option value="">Todos status</option>
             <option value="pendente">Pendente</option>
             <option value="pago">Pago</option>
             <option value="vencido">Vencido</option>
             <option value="cancelado">Cancelado</option>
           </select>
           <select id="filtro-tipo-cob" class="select-fin">
-            <option value="">Todos os tipos</option>
+            <option value="">Todos tipos</option>
             <option value="mensalidade">Mensalidade</option>
-            <option value="avulso">Avulso</option>
             <option value="setup">Setup</option>
-            <option value="suporte">Suporte</option>
+            <option value="implementacao">Implementação</option>
+            <option value="avulso">Avulso</option>
           </select>
           <button id="btn-nova-cobranca" class="btn-fin-primary">+ Nova Cobrança</button>
         </div>
-        <div id="tabela-cobrancas" class="tabela-container"></div>
-      </section>
+        <div class="tabela-container" id="tabela-cobrancas"></div>
+      </div>
 
-      <!-- ─── ABA DESPESAS ─── -->
-      <section id="tab-despesas" class="tab-panel hidden" role="tabpanel">
+      <!-- ── DESPESAS ── -->
+      <div id="tab-despesas" class="tab-panel hidden">
         <div class="toolbar-fin">
-          <input type="search" id="busca-despesas" placeholder="Buscar descrição..." class="search-fin" />
+          <input type="search" id="busca-despesas" class="search-fin" placeholder="Buscar despesas..." />
           <select id="filtro-cat-desp" class="select-fin">
-            <option value="">Todas as categorias</option>
-            <option value="infra">Infra</option>
-            <option value="software">Software</option>
-            <option value="marketing">Marketing</option>
-            <option value="pessoal">Pessoal</option>
-            <option value="impostos">Impostos</option>
-            <option value="outros">Outros</option>
+            <option value="">Todas categorias</option>
+            <option value="infra">🖥 Infra</option>
+            <option value="software">💻 Software</option>
+            <option value="marketing">📣 Marketing</option>
+            <option value="pessoal">👥 Pessoal</option>
+            <option value="impostos">🧾 Impostos</option>
+            <option value="outros">📦 Outros</option>
           </select>
           <button id="btn-nova-despesa" class="btn-fin-primary">+ Nova Despesa</button>
         </div>
-        <div id="tabela-despesas" class="tabela-container"></div>
-      </section>
+        <div class="tabela-container" id="tabela-despesas"></div>
+      </div>
 
-      <!-- ─── ABA PROPOSTAS ─── -->
-      <section id="tab-propostas" class="tab-panel hidden" role="tabpanel">
+      <!-- ── PROPOSTAS / ORÇAMENTOS ── -->
+      <div id="tab-propostas" class="tab-panel hidden">
         <div class="toolbar-fin">
-          <input type="search" id="busca-propostas" placeholder="Buscar cliente ou título..." class="search-fin" />
+          <input type="search" id="busca-propostas" class="search-fin" placeholder="Buscar propostas..." />
+          <select id="filtro-cliente-prop" class="select-fin" style="min-width:160px">
+            <option value="">Todos os clientes</option>
+          </select>
           <select id="filtro-status-prop" class="select-fin">
-            <option value="">Todos os status</option>
+            <option value="">Todos status</option>
             <option value="rascunho">Rascunho</option>
             <option value="enviada">Enviada</option>
             <option value="aprovada">Aprovada</option>
@@ -157,8 +202,8 @@
           </select>
           <button id="btn-nova-proposta" class="btn-fin-primary">+ Nova Proposta</button>
         </div>
-        <div id="tabela-propostas" class="tabela-container"></div>
-      </section>
+        <div class="tabela-container" id="tabela-propostas"></div>
+      </div>
 
     </main>
   </div>
@@ -168,40 +213,55 @@
     <div class="modal">
       <div class="modal-header">
         <h2 id="modal-cob-titulo">Nova Cobrança</h2>
-        <button class="btn-icon modal-fechar" data-modal="modal-cobranca">✕</button>
+        <button class="btn-icon modal-fechar" data-modal="modal-cobranca" aria-label="Fechar">✕</button>
       </div>
       <div class="modal-body">
         <input type="hidden" id="cob-id" />
+
+        <div class="input-group">
+          <label>Cliente</label>
+          <div class="cliente-search-wrapper">
+            <input type="text" id="cob-cliente-search" class="cliente-search-input"
+              placeholder="🔍 Digite para buscar cliente..." autocomplete="off" />
+            <div class="cliente-dropdown" id="cob-cliente-dropdown"></div>
+          </div>
+          <input type="hidden" id="cob-cliente" />
+        </div>
+
+        <div class="input-group">
+          <label for="cob-descricao">Descrição *</label>
+          <input type="text" id="cob-descricao" placeholder="Ex: Mensalidade Janeiro" required />
+        </div>
+
         <div class="form-row-2">
           <div class="input-group">
-            <label for="cob-cliente">Cliente</label>
-            <select id="cob-cliente"></select>
+            <label>Valor *</label>
+            <div class="currency-input-row">
+              <select id="cob-moeda" class="currency-select">
+                <option value="PYG">₲ PYG</option>
+                <option value="BRL">R$ BRL</option>
+                <option value="USD">$ USD</option>
+              </select>
+              <input type="number" id="cob-valor" step="any" min="0" placeholder="0" required />
+            </div>
+            <span class="equiv-pyg hidden" id="cob-equiv"></span>
           </div>
           <div class="input-group">
             <label for="cob-tipo">Tipo</label>
             <select id="cob-tipo">
               <option value="mensalidade">Mensalidade</option>
-              <option value="avulso">Avulso</option>
               <option value="setup">Setup</option>
-              <option value="suporte">Suporte</option>
+              <option value="implementacao">Implementação</option>
+              <option value="avulso">Avulso</option>
             </select>
           </div>
         </div>
-        <div class="input-group">
-          <label for="cob-descricao">Descrição *</label>
-          <input type="text" id="cob-descricao" placeholder="Ex: Mensalidade Janeiro 2026" required />
-        </div>
+
         <div class="form-row-2">
-          <div class="input-group">
-            <label for="cob-valor">Valor (R$) *</label>
-            <input type="number" id="cob-valor" min="0" step="0.01" placeholder="0.00" required />
-          </div>
           <div class="input-group">
             <label for="cob-vencimento">Vencimento *</label>
             <input type="date" id="cob-vencimento" required />
           </div>
-        </div>
-        <div class="form-row-2">
           <div class="input-group">
             <label for="cob-status">Status</label>
             <select id="cob-status">
@@ -211,14 +271,15 @@
               <option value="cancelado">Cancelado</option>
             </select>
           </div>
-          <div class="input-group" id="grupo-data-pagamento">
-            <label for="cob-data-pagamento">Data do Pagamento</label>
-            <input type="date" id="cob-data-pagamento" />
-          </div>
+        </div>
+
+        <div class="input-group" id="grupo-data-pagamento">
+          <label for="cob-data-pagamento">Data de Pagamento</label>
+          <input type="date" id="cob-data-pagamento" />
         </div>
         <div class="input-group">
           <label for="cob-obs">Observações</label>
-          <textarea id="cob-obs" rows="2" placeholder="Opcional..."></textarea>
+          <textarea id="cob-obs" rows="2" placeholder="Informações adicionais..."></textarea>
         </div>
       </div>
       <div class="modal-footer">
@@ -235,18 +296,26 @@
     <div class="modal">
       <div class="modal-header">
         <h2 id="modal-desp-titulo">Nova Despesa</h2>
-        <button class="btn-icon modal-fechar" data-modal="modal-despesa">✕</button>
+        <button class="btn-icon modal-fechar" data-modal="modal-despesa" aria-label="Fechar">✕</button>
       </div>
       <div class="modal-body">
         <input type="hidden" id="desp-id" />
         <div class="input-group">
           <label for="desp-descricao">Descrição *</label>
-          <input type="text" id="desp-descricao" placeholder="Ex: Servidor DigitalOcean" required />
+          <input type="text" id="desp-descricao" placeholder="Ex: Servidor VPS" required />
         </div>
         <div class="form-row-2">
           <div class="input-group">
-            <label for="desp-valor">Valor (R$) *</label>
-            <input type="number" id="desp-valor" min="0" step="0.01" placeholder="0.00" required />
+            <label>Valor *</label>
+            <div class="currency-input-row">
+              <select id="desp-moeda" class="currency-select">
+                <option value="PYG">₲ PYG</option>
+                <option value="BRL">R$ BRL</option>
+                <option value="USD">$ USD</option>
+              </select>
+              <input type="number" id="desp-valor" step="any" min="0" placeholder="0" required />
+            </div>
+            <span class="equiv-pyg hidden" id="desp-equiv"></span>
           </div>
           <div class="input-group">
             <label for="desp-data">Data *</label>
@@ -256,17 +325,17 @@
         <div class="input-group">
           <label for="desp-categoria">Categoria</label>
           <select id="desp-categoria">
-            <option value="infra">Infra</option>
-            <option value="software">Software</option>
-            <option value="marketing">Marketing</option>
-            <option value="pessoal">Pessoal</option>
-            <option value="impostos">Impostos</option>
-            <option value="outros">Outros</option>
+            <option value="infra">🖥 Infra</option>
+            <option value="software">💻 Software</option>
+            <option value="marketing">📣 Marketing</option>
+            <option value="pessoal">👥 Pessoal</option>
+            <option value="impostos">🧾 Impostos</option>
+            <option value="outros">📦 Outros</option>
           </select>
         </div>
         <div class="input-group">
           <label for="desp-obs">Observações</label>
-          <textarea id="desp-obs" rows="2" placeholder="Opcional..."></textarea>
+          <textarea id="desp-obs" rows="2" placeholder="Informações adicionais..."></textarea>
         </div>
       </div>
       <div class="modal-footer">
@@ -277,58 +346,72 @@
     </div>
   </div>
 
-  <!-- ══════════════ MODAL PROPOSTA ══════════════ -->
+  <!-- ══════════════ MODAL PROPOSTA / ORÇAMENTO ══════════════ -->
   <div id="modal-proposta" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-prop-titulo">
     <div class="modal">
       <div class="modal-header">
         <h2 id="modal-prop-titulo">Nova Proposta</h2>
-        <button class="btn-icon modal-fechar" data-modal="modal-proposta">✕</button>
+        <button class="btn-icon modal-fechar" data-modal="modal-proposta" aria-label="Fechar">✕</button>
       </div>
       <div class="modal-body">
         <input type="hidden" id="prop-id" />
-        <div class="form-row-2">
-          <div class="input-group">
-            <label for="prop-cliente">Cliente</label>
-            <select id="prop-cliente"></select>
+
+        <div class="input-group">
+          <label>Cliente</label>
+          <div class="cliente-search-wrapper">
+            <input type="text" id="prop-cliente-search" class="cliente-search-input"
+              placeholder="🔍 Digite para buscar cliente..." autocomplete="off" />
+            <div class="cliente-dropdown" id="prop-cliente-dropdown"></div>
           </div>
-          <div class="input-group">
-            <label for="prop-status">Status</label>
-            <select id="prop-status">
-              <option value="rascunho">Rascunho</option>
-              <option value="enviada">Enviada</option>
-              <option value="aprovada">Aprovada</option>
-              <option value="recusada">Recusada</option>
-            </select>
-          </div>
+          <input type="hidden" id="prop-cliente" />
         </div>
+
         <div class="input-group">
           <label for="prop-titulo-campo">Título *</label>
-          <input type="text" id="prop-titulo-campo" placeholder="Ex: Sistema ERP Módulo Estoque" required />
+          <input type="text" id="prop-titulo-campo" placeholder="Ex: Proposta Site Institucional" required />
         </div>
         <div class="input-group">
-          <label for="prop-descricao">Descrição do Escopo</label>
-          <textarea id="prop-descricao" rows="3" placeholder="Descreva o que está sendo proposto..."></textarea>
+          <label for="prop-descricao">Descrição / Escopo</label>
+          <textarea id="prop-descricao" rows="3" placeholder="Detalhes do orçamento ou proposta..."></textarea>
         </div>
         <div class="form-row-2">
           <div class="input-group">
-            <label for="prop-valor">Valor (R$) *</label>
-            <input type="number" id="prop-valor" min="0" step="0.01" placeholder="0.00" required />
+            <label>Valor *</label>
+            <div class="currency-input-row">
+              <select id="prop-moeda" class="currency-select">
+                <option value="PYG">₲ PYG</option>
+                <option value="BRL">R$ BRL</option>
+                <option value="USD">$ USD</option>
+              </select>
+              <input type="number" id="prop-valor" step="any" min="0" placeholder="0" required />
+            </div>
+            <span class="equiv-pyg hidden" id="prop-equiv"></span>
           </div>
           <div class="input-group">
-            <label for="prop-validade">Validade da Proposta</label>
+            <label for="prop-validade">Validade</label>
             <input type="date" id="prop-validade" />
           </div>
+        </div>
+        <div class="input-group">
+          <label for="prop-status">Status</label>
+          <select id="prop-status">
+            <option value="rascunho">Rascunho</option>
+            <option value="enviada">Enviada</option>
+            <option value="aprovada">Aprovada</option>
+            <option value="recusada">Recusada</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn-ghost modal-fechar" data-modal="modal-proposta">Cancelar</button>
+        <button id="btn-prop-converter" class="btn-success hidden">⚡ Gerar Cobrança</button>
         <button id="btn-prop-excluir" class="btn-danger hidden">🗑 Excluir</button>
-        <button id="btn-prop-converter" class="btn-success hidden" title="Converter proposta aprovada em cobrança">→ Gerar Cobrança</button>
         <button id="btn-prop-salvar" class="btn-save">Salvar</button>
       </div>
     </div>
   </div>
 
+  <script src="auth.js"></script>
   <script src="financeiro.js"></script>
 </body>
 </html>

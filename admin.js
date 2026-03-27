@@ -1,40 +1,40 @@
 /**
- * LinkPY Admin Panel — admin.js v2.0.0
+ * LinkPY Admin Panel — admin.js v2.1.0
  *
- * Correções aplicadas da auditoria:
- * ✅ XSS: createElement em vez de innerHTML com dados do usuário
- * ✅ Rate limiting + lockout no login
- * ✅ Estado de loading com skeleton
- * ✅ Estado de erro com botão de retry
- * ✅ Estado vazio (empty state)
- * ✅ btn-novo-cliente e btn-financeiro com listeners reais
- * ✅ logout via addEventListener (sem window.logout global)
- * ✅ localStorage.clear() → remoção seletiva por prefixo
- * ✅ console.log removido de produção (substituído por logger)
- * ✅ Mensagem WhatsApp em português
- * ✅ Busca/filtro de clientes
- * ✅ Paginação básica
- * ✅ CSS duplicado resolvido no CSS
- *
- * Novo: sistema de credenciais por cliente + Edge Function proxy
+ * Correções desta versão (auditoria 2025):
+ * ✅ [Crítico]  supabase_anon_key removida do select de fetchClientes
+ *               → chave agora é carregada apenas ao abrir o modal de edição
+ * ✅ [Crítico]  Rate limiting persistido em sessionStorage via auth.js
+ *               (não é mais resetado com F5)
+ * ✅ [Alto]     Token removido da query string de gerarProxyUrl
+ *               → URL base do proxy; token vai no body do POST
+ * ✅ [Alto]     btn-financeiro redireciona para financeiro.html (era alert placeholder)
+ * ✅ [Médio]    mostrarErroGrid usa esc() para sanitizar mensagens de erro (XSS)
+ * ✅ [Médio]    auth duplicado removido — agora vive em auth.js
+ * ✅ [Baixo]    alert() de salvar/excluir substituído por toast visual
  */
 
 /* ─────────────────────────────────────────
    CONFIG
+   Nota: a ADMIN_SUPABASE_KEY (anon key) precisa estar aqui para que
+   o Supabase Auth e o RLS funcionem no browser admin. Esta é uma
+   limitação arquitetural do painel client-side. Certifique-se de que:
+   1. As políticas RLS do seu projeto admin estão corretas (somente
+      usuários autenticados conseguem ler a tabela `clientes`).
+   2. A anon key NÃO é a service_role key.
+   3. A chave seja rotacionada se tiver sido exposta em commits.
 ───────────────────────────────────────── */
-const APP_VERSION = '2.0.0';
+const APP_VERSION         = '2.1.0';
+const ADMIN_SUPABASE_URL  = 'https://cwauzlddxfalcjcryegb.supabase.co';
+const ADMIN_SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3YXV6bGRkeGZhbGNqY3J5ZWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MzUzMzYsImV4cCI6MjA4ODMxMTMzNn0.2X5A-GqrE9iDtq36G8xbcRE3Ve4KuJFmdQildPr1UeE';
 
-// Supabase do PAINEL ADMIN (suas credenciais — ficam aqui, não no site do cliente)
-const ADMIN_SUPABASE_URL = 'https://cwauzlddxfalcjcryegb.supabase.co';
-const ADMIN_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3YXV6bGRkeGZhbGNqY3J5ZWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MzUzMzYsImV4cCI6MjA4ODMxMTMzNn0.2X5A-GqrE9iDtq36G8xbcRE3Ve4KuJFmdQildPr1UeE';
-
-// URL base do proxy — aponta para a Edge Function deployada no seu projeto admin
-const PROXY_FUNCTION_URL = `${ADMIN_SUPABASE_URL}/functions/v1/client-proxy`;
+// URL BASE do proxy — token vai no corpo do POST, nunca na URL
+const PROXY_BASE_URL = `${ADMIN_SUPABASE_URL}/functions/v1/client-proxy`;
 
 const PAGE_SIZE = 12;
 
 /* ─────────────────────────────────────────
-   LOGGER (sem console.log em produção)
+   LOGGER
 ───────────────────────────────────────── */
 const DEV = localStorage.getItem('linkpy_debug') === 'true';
 const log = {
@@ -51,9 +51,9 @@ const db = window.supabase.createClient(ADMIN_SUPABASE_URL, ADMIN_SUPABASE_KEY);
 /* ─────────────────────────────────────────
    ESTADO LOCAL
 ───────────────────────────────────────── */
-let todosClientes = [];   // cache da última busca
-let paginaAtual  = 1;
-let termoBusca   = '';
+let todosClientes = [];
+let paginaAtual   = 1;
+let termoBusca    = '';
 
 /* ─────────────────────────────────────────
    ELEMENTOS DO DOM
@@ -72,7 +72,6 @@ const el = {
   btnNovoCliente: document.getElementById('btn-novo-cliente'),
   btnFinanceiro:  document.getElementById('btn-financeiro'),
   btnLogout:      document.getElementById('btn-logout'),
-  // Modal
   modalOverlay:   document.getElementById('modal-cliente'),
   modalTitulo:    document.getElementById('modal-titulo'),
   modalFechar:    document.getElementById('modal-fechar'),
@@ -98,21 +97,25 @@ const el = {
    UTILITÁRIOS
 ───────────────────────────────────────── */
 
-/** Escapa texto para uso em textContent — previne XSS ao usar createElement */
+/** Escapa caracteres HTML para uso seguro em innerHTML */
+function esc(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+/** Converte valor para string sem escapar (para textContent) */
 const texto = (val) => String(val ?? '');
 
-/** Retorna quantos dias faltam para o vencimento (negativo = vencido) */
 const diasParaVencer = (dataVenc) => {
   if (!dataVenc) return null;
   const diff = new Date(dataVenc) - new Date();
   return Math.ceil(diff / 86_400_000);
 };
 
-/** Formata data ISO para pt-BR */
 const formatarData = (iso) =>
   iso ? new Date(iso).toLocaleDateString('pt-BR') : 'Não definido';
 
-/** Copia texto para o clipboard e atualiza o botão visualmente */
 async function copiarParaClipboard(txt, btnEl) {
   try {
     await navigator.clipboard.writeText(txt);
@@ -125,102 +128,69 @@ async function copiarParaClipboard(txt, btnEl) {
   }
 }
 
-/** Gera a URL do proxy para um cliente */
-const gerarProxyUrl = (token) =>
-  token ? `${PROXY_FUNCTION_URL}?token=${token}` : '—';
+/**
+ * Gera a URL base do proxy para exibição — o token NÃO vai na URL.
+ * O site do cliente deve fazer POST para esta URL com { token, table, method, ... }
+ * no corpo da requisição.
+ * ✅ Fix: token removido da query string (evita exposição em logs/Referer/histórico)
+ */
+const gerarProxyUrl = () => PROXY_BASE_URL;
 
 /* ─────────────────────────────────────────
-   AUTENTICAÇÃO
+   TOAST / FEEDBACK VISUAL
+   Substitui alert() por notificações não-bloqueantes
 ───────────────────────────────────────── */
+function mostrarToast(msg, tipo = 'error') {
+  const cores = {
+    error:   { bg: '#fef2f2', cor: '#b91c1c', borda: '#fecaca' },
+    success: { bg: '#f0fdf4', cor: '#15803d', borda: '#bbf7d0' },
+    info:    { bg: '#eff6ff', cor: '#1d4ed8', borda: '#bfdbfe' },
+  };
+  const c = cores[tipo] ?? cores.error;
 
-let loginTentativas = 0;
-let loginBloqueado  = false;
-let lockoutTimer    = null;
+  const toast = document.createElement('div');
+  toast.setAttribute('role', 'alert');
+  toast.style.cssText = [
+    'position:fixed', 'bottom:1.5rem', 'right:1.5rem', 'z-index:9999',
+    `padding:.8rem 1.2rem`, 'border-radius:8px', 'font-size:.875rem',
+    'font-weight:600', 'box-shadow:0 4px 16px rgba(0,0,0,.12)',
+    'max-width:360px', 'line-height:1.4',
+    `background:${c.bg}`, `color:${c.cor}`, `border:1px solid ${c.borda}`,
+    'display:flex', 'align-items:center', 'gap:.5rem',
+    'animation:lp-slideIn .2s ease',
+  ].join(';');
 
-async function handleLogin(e) {
-  e.preventDefault();
+  // Ícone
+  const icone = { error: '⚠', success: '✓', info: 'ℹ' }[tipo] ?? '⚠';
+  toast.textContent = `${icone} ${msg}`;
 
-  if (loginBloqueado) return;
-  if (loginTentativas >= 5) {
-    iniciarLockout();
-    return;
+  // Adicionar keyframes se ainda não existir
+  if (!document.getElementById('lp-toast-styles')) {
+    const style = document.createElement('style');
+    style.id = 'lp-toast-styles';
+    style.textContent = '@keyframes lp-slideIn{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}';
+    document.head.appendChild(style);
   }
 
-  const email    = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-
-  if (!email || !password) {
-    mostrarErroLogin('Preencha email e senha.');
-    return;
-  }
-
-  el.btnSubmit.disabled    = true;
-  el.btnSubmit.textContent = 'Entrando...';
-
-  const { error } = await db.auth.signInWithPassword({ email, password });
-
-  el.btnSubmit.disabled    = false;
-  el.btnSubmit.textContent = 'Entrar';
-
-  if (error) {
-    loginTentativas++;
-    const restantes = 5 - loginTentativas;
-    const msg = restantes > 0
-      ? `Credenciais inválidas. Tentativas restantes: ${restantes}`
-      : 'Conta bloqueada temporariamente por segurança.';
-    mostrarErroLogin(msg);
-    log.error('Falha no login:', error.message);
-    if (loginTentativas >= 5) iniciarLockout();
-  } else {
-    loginTentativas = 0;
-    mostrarErroLogin(null);
-    showAdmin();
-  }
-}
-
-function mostrarErroLogin(msg) {
-  if (!msg) { el.loginError.classList.remove('show'); return; }
-  el.loginErrorMsg.textContent = msg;
-  el.loginError.classList.add('show');
-}
-
-function iniciarLockout() {
-  loginBloqueado = true;
-  let secs = 30;
-  el.btnSubmit.disabled = true;
-  const interval = setInterval(() => {
-    secs--;
-    mostrarErroLogin(`Muitas tentativas. Aguarde ${secs}s para tentar novamente.`);
-    if (secs <= 0) {
-      clearInterval(interval);
-      loginBloqueado  = false;
-      loginTentativas = 0;
-      el.btnSubmit.disabled = false;
-      mostrarErroLogin(null);
-    }
-  }, 1000);
-}
-
-function showAdmin() {
-  el.loginContainer.classList.add('hidden');
-  el.adminWrapper.classList.remove('hidden');
-  fetchClientes();
-}
-
-function handleLogout() {
-  db.auth.signOut().then(() => location.reload());
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.style.transition = 'opacity .3s';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
 }
 
 /* ─────────────────────────────────────────
    CLIENTES — BUSCA
+   ✅ Fix: supabase_anon_key REMOVIDA do select
+   (chave só é buscada ao abrir modal de edição de 1 cliente)
 ───────────────────────────────────────── */
-
 async function fetchClientes() {
   mostrarSkeletons();
 
   const { data, error } = await db
     .from('clientes')
-    .select('id, nome_empresa, responsavel_nome, telefone_responsavel, vencimento_mensalidade, supabase_url, supabase_anon_key, client_token')
+    .select('id, nome_empresa, responsavel_nome, telefone_responsavel, vencimento_mensalidade, supabase_url, client_token')
     .order('nome_empresa', { ascending: true });
 
   if (error) {
@@ -237,7 +207,6 @@ async function fetchClientes() {
 /* ─────────────────────────────────────────
    CLIENTES — RENDERIZAÇÃO
 ───────────────────────────────────────── */
-
 function renderizarGrid() {
   const filtrados = todosClientes.filter(c =>
     c.nome_empresa?.toLowerCase().includes(termoBusca) ||
@@ -245,9 +214,9 @@ function renderizarGrid() {
     c.telefone_responsavel?.includes(termoBusca)
   );
 
-  const total   = filtrados.length;
-  const inicio  = (paginaAtual - 1) * PAGE_SIZE;
-  const pagina  = filtrados.slice(inicio, inicio + PAGE_SIZE);
+  const total  = filtrados.length;
+  const inicio = (paginaAtual - 1) * PAGE_SIZE;
+  const pagina = filtrados.slice(inicio, inicio + PAGE_SIZE);
 
   el.contador.textContent = `${total} cliente${total !== 1 ? 's' : ''}`;
   el.grid.innerHTML = '';
@@ -265,7 +234,7 @@ function renderizarGrid() {
 }
 
 function criarCard(c) {
-  const dias = diasParaVencer(c.vencimento_mensalidade);
+  const dias   = diasParaVencer(c.vencimento_mensalidade);
   const alerta = dias !== null && dias <= 5 && dias >= 0;
   const vencido = dias !== null && dias < 0;
 
@@ -273,7 +242,6 @@ function criarCard(c) {
   article.className = `card-cliente${alerta ? ' alerta-vencimento' : ''}`;
   article.setAttribute('role', 'listitem');
 
-  // Header
   const header = document.createElement('div');
   header.className = 'card-header';
 
@@ -293,40 +261,37 @@ function criarCard(c) {
   header.appendChild(h3);
   if (vencido || alerta) header.appendChild(badge);
 
-  // Info
   const info = document.createElement('div');
   info.className = 'card-info';
 
   const infoRows = [
     ['Responsável', c.responsavel_nome || 'N/A'],
-    ['Vencimento', formatarData(c.vencimento_mensalidade)],
+    ['Vencimento',  formatarData(c.vencimento_mensalidade)],
   ];
 
   infoRows.forEach(([label, val]) => {
-    const row = document.createElement('div');
+    const row    = document.createElement('div');
     row.className = 'card-info-row';
     const strong = document.createElement('strong');
     strong.textContent = label;
-    const span = document.createElement('span');
+    const span   = document.createElement('span');
     span.textContent = val;
     row.appendChild(strong);
     row.appendChild(span);
     info.appendChild(row);
   });
 
-  // Indicador de credenciais
-  const credRow = document.createElement('div');
+  const credRow   = document.createElement('div');
   credRow.className = 'card-info-row';
   const credLabel = document.createElement('strong');
   credLabel.textContent = 'Sistema';
-  const credInd = document.createElement('span');
+  const credInd   = document.createElement('span');
   credInd.className = `credential-indicator ${c.supabase_url ? 'has-cred' : 'no-cred'}`;
   credInd.textContent = c.supabase_url ? '✓ Proxy configurado' : '○ Sem credenciais';
   credRow.appendChild(credLabel);
   credRow.appendChild(credInd);
   info.appendChild(credRow);
 
-  // Botões
   const btnGroup = document.createElement('div');
   btnGroup.className = 'btn-group';
 
@@ -352,7 +317,7 @@ function criarCard(c) {
 }
 
 function criarEstadoVazio(busca) {
-  const div = document.createElement('div');
+  const div  = document.createElement('div');
   div.className = 'estado-vazio';
   const icone = document.createElement('div');
   icone.className = 'icone';
@@ -360,7 +325,9 @@ function criarEstadoVazio(busca) {
   const h3 = document.createElement('h3');
   h3.textContent = busca ? 'Nenhum resultado encontrado' : 'Nenhum cliente cadastrado';
   const p = document.createElement('p');
-  p.textContent = busca ? `Nenhum cliente corresponde a "${busca}".` : 'Cadastre seu primeiro cliente clicando em "+ Novo Cliente".';
+  p.textContent = busca
+    ? `Nenhum cliente corresponde a "${busca}".`
+    : 'Cadastre seu primeiro cliente clicando em "+ Novo Cliente".';
   div.appendChild(icone);
   div.appendChild(h3);
   div.appendChild(p);
@@ -384,14 +351,19 @@ function mostrarSkeletons() {
   el.paginacao.innerHTML = '';
 }
 
+/**
+ * ✅ Fix XSS: msg é passada por esc() antes de ir para innerHTML.
+ * Anteriormente usava texto() que apenas faz String(), sem escapar HTML.
+ */
 function mostrarErroGrid(msg) {
   el.grid.innerHTML = '';
   const div = document.createElement('div');
   div.className = 'estado-vazio';
+  // esc() sanitiza a mensagem de erro que pode vir do Supabase
   div.innerHTML = `
     <div class="icone">⚠️</div>
     <h3>Erro ao carregar clientes</h3>
-    <p style="color:#dc2626">${texto(msg)}</p>
+    <p style="color:#dc2626">${esc(msg)}</p>
   `;
   const btn = document.createElement('button');
   btn.style.cssText = 'background:var(--primary);color:white;padding:.6rem 1.25rem;margin-top:.5rem;';
@@ -404,7 +376,6 @@ function mostrarErroGrid(msg) {
 /* ─────────────────────────────────────────
    PAGINAÇÃO
 ───────────────────────────────────────── */
-
 function renderizarPaginacao(total) {
   const totalPaginas = Math.ceil(total / PAGE_SIZE);
   el.paginacao.innerHTML = '';
@@ -432,9 +403,8 @@ function renderizarPaginacao(total) {
 /* ─────────────────────────────────────────
    WHATSAPP
 ───────────────────────────────────────── */
-
 function enviarWpp(tel, empresa) {
-  if (!tel) { alert('Telefone não cadastrado para este cliente.'); return; }
+  if (!tel) { mostrarToast('Telefone não cadastrado para este cliente.', 'info'); return; }
   const msg = encodeURIComponent(
     `Olá! Passando para avisar que a mensalidade do sistema de *${empresa}* vence em breve.\n\n` +
     `Por favor, entre em contato para renovar. Qualquer dúvida, estamos à disposição! 😊`
@@ -445,7 +415,6 @@ function enviarWpp(tel, empresa) {
 /* ─────────────────────────────────────────
    MODAL — ABRIR / FECHAR
 ───────────────────────────────────────── */
-
 function abrirModalNovo() {
   el.modalTitulo.textContent = 'Novo Cliente';
   el.campoId.value      = '';
@@ -462,7 +431,12 @@ function abrirModalNovo() {
   abrirModal();
 }
 
-function abrirModalEditar(c) {
+/**
+ * ✅ Fix: supabase_anon_key é buscada separadamente para 1 cliente,
+ * somente quando o modal de edição é aberto.
+ * Antes, a chave de TODOS os clientes trafegava para o browser na carga inicial.
+ */
+async function abrirModalEditar(c) {
   el.modalTitulo.textContent = `Editar — ${c.nome_empresa}`;
   el.campoId.value      = String(c.id);
   el.campoEmpresa.value = texto(c.nome_empresa);
@@ -472,16 +446,27 @@ function abrirModalEditar(c) {
     ? new Date(c.vencimento_mensalidade).toISOString().split('T')[0]
     : '';
   el.campoSupaUrl.value = texto(c.supabase_url);
-  el.campoSupaKey.value = texto(c.supabase_anon_key);
+  el.campoSupaKey.value = '';      // limpa enquanto carrega
   el.campoSupaKey.type  = 'password';
   el.btnToggleKey.textContent = '👁';
   el.btnExcluir.classList.remove('hidden');
 
-  // Proxy info
+  // Buscar apenas a chave deste cliente (somente quando necessário)
+  const { data: credData } = await db
+    .from('clientes')
+    .select('supabase_anon_key')
+    .eq('id', c.id)
+    .single();
+  if (credData?.supabase_anon_key) {
+    el.campoSupaKey.value = texto(credData.supabase_anon_key);
+  }
+
+  // Proxy info — URL base sem token; token vai no body do POST
   if (c.client_token) {
     el.proxySection.classList.remove('hidden');
     el.displayToken.textContent = texto(c.client_token);
-    el.displayProxy.textContent = gerarProxyUrl(c.client_token);
+    // ✅ Fix: gerarProxyUrl() agora retorna apenas a URL base
+    el.displayProxy.textContent = gerarProxyUrl();
   } else {
     el.proxySection.classList.add('hidden');
   }
@@ -502,10 +487,9 @@ function fecharModal() {
 
 /* ─────────────────────────────────────────
    MODAL — SALVAR / EXCLUIR
+   ✅ Fix: alert() substituído por mostrarToast()
 ───────────────────────────────────────── */
-
 async function salvarCliente() {
-  // Validação básica
   let valido = true;
   if (!el.campoEmpresa.value.trim()) {
     document.getElementById('erro-empresa').classList.remove('hidden');
@@ -526,12 +510,12 @@ async function salvarCliente() {
   if (!valido) return;
 
   const payload = {
-    nome_empresa:          el.campoEmpresa.value.trim(),
-    responsavel_nome:      el.campoResp.value.trim() || null,
-    telefone_responsavel:  el.campoTel.value.trim(),
+    nome_empresa:           el.campoEmpresa.value.trim(),
+    responsavel_nome:       el.campoResp.value.trim() || null,
+    telefone_responsavel:   el.campoTel.value.trim(),
     vencimento_mensalidade: el.campoVenc.value || null,
-    supabase_url:          el.campoSupaUrl.value.trim() || null,
-    supabase_anon_key:     el.campoSupaKey.value.trim() || null,
+    supabase_url:           el.campoSupaUrl.value.trim() || null,
+    supabase_anon_key:      el.campoSupaKey.value.trim() || null,
   };
 
   el.btnSalvar.disabled    = true;
@@ -551,16 +535,17 @@ async function salvarCliente() {
 
   if (error) {
     log.error('Erro ao salvar cliente:', error);
-    alert(`Erro ao salvar: ${error.message}`);
+    mostrarToast(`Erro ao salvar: ${error.message}`, 'error');
     return;
   }
 
   fecharModal();
+  mostrarToast('Cliente salvo com sucesso!', 'success');
   fetchClientes();
 }
 
 async function excluirCliente() {
-  const id = el.campoId.value;
+  const id   = el.campoId.value;
   const nome = el.campoEmpresa.value;
   if (!id) return;
   if (!confirm(`Tem certeza que deseja excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
@@ -575,21 +560,21 @@ async function excluirCliente() {
 
   if (error) {
     log.error('Erro ao excluir cliente:', error);
-    alert(`Erro ao excluir: ${error.message}`);
+    mostrarToast(`Erro ao excluir: ${error.message}`, 'error');
     return;
   }
 
   fecharModal();
+  mostrarToast('Cliente excluído.', 'success');
   fetchClientes();
 }
 
 /* ─────────────────────────────────────────
    INICIALIZAÇÃO
 ───────────────────────────────────────── */
-
 document.addEventListener('DOMContentLoaded', async () => {
 
-  // 1. Controle de versão — remoção seletiva (sem localStorage.clear())
+  // 1. Controle de versão — remoção seletiva de localStorage
   const lastVersion = localStorage.getItem('linkpy_version');
   if (lastVersion !== APP_VERSION) {
     Object.keys(localStorage)
@@ -598,19 +583,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('linkpy_version', APP_VERSION);
   }
 
-  // 2. Verificar sessão ativa
-  const { data: { session } } = await db.auth.getSession();
-  if (session) showAdmin();
+  // 2. Auth (via módulo compartilhado auth.js)
+  //    initAuth verifica sessão ativa e configura o form de login
+  await initAuth(db, () => {
+    el.loginContainer.classList.add('hidden');
+    el.adminWrapper.classList.remove('hidden');
+    fetchClientes();
+  });
 
-  // 3. Event listeners de autenticação
-  el.formLogin.addEventListener('submit', handleLogin);
-  el.btnLogout.addEventListener('click', handleLogout);   // ✅ sem window.logout global
+  // 3. Logout
+  initLogout(db);
 
   // 4. Toolbar
-  el.btnNovoCliente.addEventListener('click', abrirModalNovo);  // ✅ botão funcional
+  el.btnNovoCliente.addEventListener('click', abrirModalNovo);
+
+  // ✅ Fix: redireciona para financeiro.html em vez de alert() placeholder
   el.btnFinanceiro.addEventListener('click', () => {
-    // TODO: implementar módulo financeiro
-    alert('💰 Módulo Financeiro em desenvolvimento.\nEm breve você terá acesso a fluxo de caixa e cobranças automáticas.');
+    window.location.href = 'financeiro.html';
   });
 
   // 5. Busca com debounce
@@ -630,24 +619,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   el.btnSalvar.addEventListener('click', salvarCliente);
   el.btnExcluir.addEventListener('click', excluirCliente);
 
-  // Fechar modal clicando fora
   el.modalOverlay.addEventListener('click', (e) => {
     if (e.target === el.modalOverlay) fecharModal();
   });
 
-  // Fechar com Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && el.modalOverlay.classList.contains('open')) fecharModal();
   });
 
-  // Toggle visibilidade da chave
   el.btnToggleKey.addEventListener('click', () => {
     const mostrar = el.campoSupaKey.type === 'password';
     el.campoSupaKey.type = mostrar ? 'text' : 'password';
     el.btnToggleKey.textContent = mostrar ? '🙈' : '👁';
   });
 
-  // Copiar token e proxy URL
   el.btnCopyToken.addEventListener('click', () =>
     copiarParaClipboard(el.displayToken.textContent, el.btnCopyToken));
   el.btnCopyProxy.addEventListener('click', () =>

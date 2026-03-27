@@ -5,10 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — LinkPY</title>
   <meta name="robots" content="noindex, nofollow" />
+
+  <!--
+    ✅ Fix [Alto]: Content Security Policy
+    Restringe de onde scripts, estilos e conexões podem ser carregados.
+    Se um XSS for explorado, o atacante não consegue carregar scripts externos.
+
+    ATENÇÃO: 'unsafe-inline' em style-src é necessário para os estilos inline
+    usados no admin (ex: btn.style.cssText). Remova-o se puder mover esses
+    estilos para classes no CSS.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src  'self' https://cdn.jsdelivr.net;
+    style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src    https://fonts.gstatic.com;
+    connect-src 'self' https://cwauzlddxfalcjcryegb.supabase.co;
+    img-src     'self' data:;
+    object-src  'none';
+    base-uri    'self';
+  " />
+
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='16' font-weight='800' font-family='sans-serif' fill='white'>LP</text></svg>" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="admin.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!--
+    ✅ Fix [Alto]: Subresource Integrity (SRI)
+    O atributo integrity garante que o arquivo baixado do CDN não foi
+    adulterado (supply chain attack). Use https://www.srihash.org para
+    gerar o hash correto do arquivo e substitua o valor abaixo.
+
+    Como gerar:
+      curl -s https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2 | openssl dgst -sha384 -binary | openssl base64 -A
+
+    Substitua o placeholder sha384-GERE_O_HASH_AQUI pelo hash real.
+    Enquanto não tiver o hash, mantenha o script sem integrity mas
+    PRIORIZE gerar e adicionar o hash o quanto antes.
+  -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"
+    crossorigin="anonymous"
+  ></script>
+  <!-- integrity="sha384-SUBSTITUA_PELO_HASH_REAL" -->
 </head>
 <body>
 
@@ -55,7 +94,6 @@
       </nav>
     </header>
 
-    <!-- Toolbar: busca + filtros -->
     <div id="toolbar" role="search">
       <input
         type="search"
@@ -93,7 +131,6 @@
       <div class="modal-body">
         <input type="hidden" id="modal-cliente-id" />
 
-        <!-- Dados gerais -->
         <p class="modal-section-title">Dados do Cliente</p>
 
         <div class="input-group">
@@ -118,7 +155,6 @@
           <input type="date" id="campo-vencimento" />
         </div>
 
-        <!-- Credenciais Supabase -->
         <p class="modal-section-title" style="margin-top:.5rem">Credenciais do Sistema do Cliente</p>
 
         <div class="info-banner">
@@ -151,17 +187,19 @@
               </div>
             </div>
             <div class="cred-field">
-              <label>URL do Proxy para o site do cliente</label>
+              <label>URL base do Proxy</label>
               <div class="proxy-url-display" id="display-proxy-url">—</div>
               <button type="button" class="btn-copy" id="btn-copy-proxy" style="align-self:flex-start;margin-top:.3rem">📋 Copiar URL</button>
             </div>
             <p style="font-size:.75rem;color:#1e40af;line-height:1.5">
-              Cole essa URL no arquivo <code>config.js</code> do site do cliente. Ela nunca expõe as chaves Supabase.
+              O site do cliente faz um <strong>POST</strong> para essa URL com
+              <code>{ token, table, method, ... }</code> no corpo da requisição.
+              O token <strong>não deve aparecer na URL</strong> (evita exposição em logs e Referer).
             </p>
           </div>
         </div>
 
-      </div><!-- /modal-body -->
+      </div>
 
       <div class="modal-footer">
         <button id="btn-modal-cancelar" class="btn-ghost">Cancelar</button>
@@ -173,6 +211,8 @@
     </div>
   </div>
 
+  <!-- ✅ auth.js carregado antes de admin.js -->
+  <script src="auth.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

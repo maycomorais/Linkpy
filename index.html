@@ -1,733 +1,1265 @@
+<!-- LinkPY - Portafolio -->
 <!DOCTYPE html>
-<html class="light" lang="es-PY">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LinkPY | Software Factory Paraguay</title>
 
-  <!-- ✅ FIX AUDITORIA: Meta tags SEO + Open Graph -->
-  <meta name="description" content="LinkPY - Desarrollamos sistemas a medida para empresas en Paraguay. ERP corporativo, software para restaurantes, barberías y e-commerce con integración a Bancard y Pagopar." />
-  <meta name="keywords" content="software paraguay, desarrollo sistemas, ERP paraguay, software restaurante, software barbería, e-commerce paraguay, asuncion" />
-  <meta name="author" content="LinkPY Software Factory" />
-  <meta property="og:title" content="LinkPY | Software Factory Paraguay" />
-  <meta property="og:description" content="Transformamos la complejidad técnica en herramientas digitales intuitivas. Sistemas a medida desde Asunción." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://linkpy.com.py" />
-  <meta property="og:image" content="https://linkpy.com.py/img/og-preview.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="LinkPY | Software Factory Paraguay" />
-  <meta name="twitter:description" content="Sistemas a medida para tu negocio en Paraguay." />
-
-  <!-- ✅ FIX AUDITORIA: Favicon inline SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23003f95'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='18' font-weight='800' font-family='sans-serif' fill='white'>L</text></svg>" />
-
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "background": "#faf8ff",
-            "inverse-primary": "#b0c6ff",
-            "on-secondary": "#ffffff",
-            "primary-fixed-dim": "#b0c6ff",
-            "inverse-surface": "#2e3038",
-            "on-secondary-fixed": "#00201f",
-            "outline-variant": "#c3c6d6",
-            "secondary-fixed-dim": "#2edcd7",
-            "on-primary": "#ffffff",
-            "primary": "#003f95",
-            "surface-container-high": "#e7e7f2",
-            "tertiary": "#831a21",
-            "surface-tint": "#215abd",
-            "inverse-on-surface": "#f0f0fb",
-            "on-tertiary": "#ffffff",
-            "primary-fixed": "#d9e2ff",
-            "on-error": "#ffffff",
-            "surface": "#faf8ff",
-            "on-tertiary-container": "#ffc5c2",
-            "surface-container-low": "#f3f3fd",
-            "on-primary-container": "#c3d2ff",
-            "error-container": "#ffdad6",
-            "surface-container-highest": "#e1e2ec",
-            "on-surface": "#191b23",
-            "tertiary-fixed": "#ffdad8",
-            "on-tertiary-fixed": "#410006",
-            "tertiary-fixed-dim": "#ffb3b0",
-            "surface-container-lowest": "#ffffff",
-            "tertiary-container": "#a43236",
-            "outline": "#737685",
-            "surface-container": "#ededf8",
-            "on-tertiary-fixed-variant": "#881d24",
-            "on-background": "#191b23",
-            "secondary-container": "#5af9f3",
-            "on-primary-fixed-variant": "#00429b",
-            "on-primary-fixed": "#001945",
-            "on-secondary-container": "#00706e",
-            "on-surface-variant": "#434654",
-            "surface-variant": "#e1e2ec",
-            "secondary-fixed": "#5af9f3",
-            "error": "#ba1a1a",
-            "surface-dim": "#d9d9e4",
-            "secondary": "#006a67",
-            "primary-container": "#1c56b9",
-            "surface-bright": "#faf8ff",
-            "on-error-container": "#93000a",
-            "on-secondary-fixed-variant": "#00504e"
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portafolio - LinkPY Software Factory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#faf8ff",
+              "inverse-primary": "#b0c6ff",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#b0c6ff",
+              "inverse-surface": "#2e3038",
+              "on-secondary-fixed": "#00201f",
+              "outline-variant": "#c3c6d6",
+              "secondary-fixed-dim": "#2edcd7",
+              "on-primary": "#ffffff",
+              "primary": "#003f95",
+              "surface-container-high": "#e7e7f2",
+              "tertiary": "#831a21",
+              "surface-tint": "#215abd",
+              "inverse-on-surface": "#f0f0fb",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#d9e2ff",
+              "on-error": "#ffffff",
+              "surface": "#faf8ff",
+              "on-tertiary-container": "#ffc5c2",
+              "surface-container-low": "#f3f3fd",
+              "on-primary-container": "#c3d2ff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e1e2ec",
+              "on-surface": "#191b23",
+              "tertiary-fixed": "#ffdad8",
+              "on-tertiary-fixed": "#410006",
+              "tertiary-fixed-dim": "#ffb3b0",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#a43236",
+              "outline": "#737685",
+              "surface-container": "#ededf8",
+              "on-tertiary-fixed-variant": "#881d24",
+              "on-background": "#191b23",
+              "secondary-container": "#5af9f3",
+              "on-primary-fixed-variant": "#00429b",
+              "on-primary-fixed": "#001945",
+              "on-secondary-container": "#00706e",
+              "on-surface-variant": "#434654",
+              "surface-variant": "#e1e2ec",
+              "secondary-fixed": "#5af9f3",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9d9e4",
+              "secondary": "#006a67",
+              "primary-container": "#1c56b9",
+              "surface-bright": "#faf8ff",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#00504e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
           },
-          fontFamily: {
-            "headline": ["Manrope", "sans-serif"],
-            "body": ["Inter", "sans-serif"],
-            "label": ["Inter", "sans-serif"]
-          },
-          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
         },
-      },
-    }
-  </script>
-
-  <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-
-    /* Animações de entrada */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .animate-fade-in-up {
-      animation: fadeInUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      opacity: 0;
-    }
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.22s; }
-    .delay-3 { animation-delay: 0.34s; }
-    .delay-4 { animation-delay: 0.46s; }
-    .delay-5 { animation-delay: 0.58s; }
-
-    /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* Mobile menu */
-    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    #mobile-menu.open { max-height: 400px; }
-
-    /* WhatsApp float */
-    @keyframes pulse-wpp { 0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)} 70%{box-shadow:0 0 0 10px rgba(37,211,102,0)} }
-    .wpp-float { animation: pulse-wpp 2.5s infinite; }
-
-    /* Nav ativo */
-    .nav-link.active { color: #003f95; border-bottom: 2px solid #003f95; }
-
-    /* Gradient texto hero */
-    .gradient-text {
-      background: linear-gradient(135deg, #003f95 0%, #1c56b9 50%, #215abd 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  </style>
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(250, 248, 255, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .hero-gradient {
+        background: linear-gradient(135deg, #003f95 0%, #1c56b9 100%);
+      }
+      body { font-family: 'Inter', sans-serif; background-color: #faf8ff; color: #191b23; }
+      h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; }
+    </style>
 </head>
-<body class="bg-background font-body text-on-surface">
-
-<!-- ✅ TopNavBar com menu mobile funcional -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-sm" id="navbar">
-  <div class="flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto">
-    <a href="#" class="text-2xl font-black tracking-tighter text-blue-900 font-headline">LinkPY</a>
-
-    <!-- Desktop nav -->
-    <div class="hidden md:flex items-center space-x-8">
-      <a class="nav-link text-slate-600 hover:text-blue-700 font-semibold font-headline tracking-tight transition-all duration-200 pb-0.5" href="#inicio">Inicio</a>
-      <a class="nav-link text-slate-600 hover:text-blue-700 font-semibold font-headline tracking-tight transition-all duration-200 pb-0.5" href="#soluciones">Servicios</a>
-      <a class="nav-link text-slate-600 hover:text-blue-700 font-semibold font-headline tracking-tight transition-all duration-200 pb-0.5" href="#portafolio">Portafolio</a>
-      <a class="nav-link text-slate-600 hover:text-blue-700 font-semibold font-headline tracking-tight transition-all duration-200 pb-0.5" href="#contacto">Contacto</a>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <!-- ✅ CTA direto ao WhatsApp -->
-      <a href="https://wa.me/595976771714?text=Hola%2C%20me%20interesa%20una%20demo%20de%20LinkPY" target="_blank" rel="noopener noreferrer"
-        class="hidden sm:inline-flex bg-primary text-on-primary px-6 py-2.5 rounded-xl font-headline font-semibold hover:bg-primary-container transition-all shadow-lg shadow-primary/20 active:scale-95">
-        Solicitar Demo
-      </a>
-      <!-- Hamburger mobile -->
-      <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Abrir menu" aria-expanded="false">
-        <span class="material-symbols-outlined" id="menu-icon">menu</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile dropdown -->
-  <div id="mobile-menu" class="md:hidden border-t border-outline-variant/30 bg-surface/95 backdrop-blur-xl">
-    <div class="flex flex-col px-6 py-4 gap-1">
-      <a class="py-3 px-4 rounded-xl text-on-surface font-semibold hover:bg-surface-container-low transition-colors" href="#inicio" onclick="closeMobileMenu()">Inicio</a>
-      <a class="py-3 px-4 rounded-xl text-on-surface font-semibold hover:bg-surface-container-low transition-colors" href="#soluciones" onclick="closeMobileMenu()">Servicios</a>
-      <a class="py-3 px-4 rounded-xl text-on-surface font-semibold hover:bg-surface-container-low transition-colors" href="#portafolio" onclick="closeMobileMenu()">Portafolio</a>
-      <a class="py-3 px-4 rounded-xl text-on-surface font-semibold hover:bg-surface-container-low transition-colors" href="#contacto" onclick="closeMobileMenu()">Contacto</a>
-      <a href="https://wa.me/595976771714?text=Hola%2C%20me%20interesa%20una%20demo%20de%20LinkPY" target="_blank" rel="noopener noreferrer"
-        class="mt-2 py-3 px-4 rounded-xl bg-primary text-on-primary font-bold text-center hover:bg-primary-container transition-colors">
-        Solicitar Demo
-      </a>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero Section -->
-<header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden" id="inicio">
-  <div class="absolute inset-0 z-0 pointer-events-none">
-    <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
-    <div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary-container/10 rounded-full blur-[100px]"></div>
-  </div>
-
-  <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <div>
-        <span class="animate-fade-in-up delay-1 inline-block px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold tracking-widest uppercase mb-6">
-          Software Factory Premium
-        </span>
-        <h1 class="animate-fade-in-up delay-2 text-5xl md:text-6xl lg:text-7xl font-extrabold font-headline text-on-surface leading-[1.1] tracking-tighter mb-8">
-          Sistemas a medida para tu negocio en
-          <span class="gradient-text"> Paraguay</span>.
-        </h1>
-        <p class="animate-fade-in-up delay-3 text-lg md:text-xl text-on-surface-variant mb-10 max-w-lg leading-relaxed">
-          Transformamos la complejidad técnica en herramientas digitales intuitivas. Desde Asunción proyectando innovación al mundo.
-        </p>
-        <div class="animate-fade-in-up delay-4 flex flex-col sm:flex-row gap-4">
-          <a href="https://wa.me/595976771714?text=Hola%2C%20quiero%20iniciar%20un%20proyecto%20con%20LinkPY" target="_blank" rel="noopener noreferrer"
-            class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-all shadow-lg shadow-primary/20">
-            Empezar un Proyecto
-            <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
-          </a>
-          <a href="#portafolio"
-            class="bg-surface-container-high text-on-surface px-8 py-4 rounded-xl font-bold hover:bg-surface-container-highest transition-all text-center">
-            Ver Portafolio
-          </a>
-        </div>
-      </div>
-
-      <div class="animate-fade-in-up delay-5 relative">
-        <div class="rounded-2xl overflow-hidden shadow-2xl bg-surface-container-low p-2">
-          <img
-            alt="Dashboard de software LinkPY mostrando métricas de negocio en tiempo real"
-            class="rounded-xl w-full h-auto object-cover aspect-video shadow-inner"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJwvK4YawREMSTS4pfC7BhzdJIUkaRBV7GhtwqymSBoCG97cG3DHEYSjXp18sc7NGztDyRaX5eyVA6Ym7ZGVaeS08tnGJGPlyeuv_EdKL0TgwaSf2CzUSzjnvxT-0AqUHk_EUXBP6cns4V_GZxk_CU5movxGMi2EiE9gmBMrU4X5CRoArNwfkwa8hfO0I7zulKsFKYDcr09aZC5hv-B1PaYeb-3FzKqnodG5fwIBxdEUHn534_EFAnjz41x4Z53sDxdHBD5HrjwJFs"
-            loading="eager"
-          />
-        </div>
-        <!-- Floating Badge -->
-        <div class="absolute -bottom-6 -left-6 bg-white p-5 rounded-2xl shadow-xl flex items-center gap-4 border border-outline-variant/20">
-          <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
-          </div>
-          <div>
-            <p class="text-xs text-outline font-bold tracking-wider uppercase">Soporte Local</p>
-            <p class="text-on-surface font-bold text-sm">Asunción, Paraguay</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- Stats strip -->
-<div class="bg-primary py-8 md:py-10">
-  <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-on-primary">
-      <div class="reveal">
-        <div class="text-3xl md:text-4xl font-black font-headline">+30</div>
-        <div class="text-xs md:text-sm font-semibold opacity-70 mt-1 uppercase tracking-wider">Proyectos entregados</div>
-      </div>
-      <div class="reveal">
-        <div class="text-3xl md:text-4xl font-black font-headline">3 países</div>
-        <div class="text-xs md:text-sm font-semibold opacity-70 mt-1 uppercase tracking-wider">Clientes activos</div>
-      </div>
-      <div class="reveal">
-        <div class="text-3xl md:text-4xl font-black font-headline">99.9%</div>
-        <div class="text-xs md:text-sm font-semibold opacity-70 mt-1 uppercase tracking-wider">Uptime promedio</div>
-      </div>
-      <div class="reveal">
-        <div class="text-3xl md:text-4xl font-black font-headline">24h</div>
-        <div class="text-xs md:text-sm font-semibold opacity-70 mt-1 uppercase tracking-wider">Soporte técnico</div>
-      </div>
-    </div>
-  </div>
+<body class="bg-background text-on-background">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-sm">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-900">LinkPY</div>
+<div class="hidden md:flex items-center space-x-8 font-manrope font-semibold tracking-tight">
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Inicio</a>
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Servicios</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-700 transition-all duration-300" href="#">Portafolio</a>
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Contacto</a>
 </div>
-
-<!-- Services Grid (Bento Style) -->
-<section class="py-24 bg-surface-container-low" id="soluciones">
-  <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="mb-16 reveal">
-      <span class="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Lo que hacemos</span>
-      <h2 class="text-3xl md:text-5xl font-extrabold font-headline mb-4 tracking-tight text-on-surface">Soluciones Especializadas</h2>
-      <p class="text-on-surface-variant text-lg max-w-xl">Desarrollamos ecosistemas digitales adaptados al mercado local.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
-      <!-- Restaurantes -->
-      <div class="md:col-span-3 bg-surface-container-lowest p-8 rounded-2xl shadow-sm group hover:shadow-lg transition-all duration-300 reveal">
-        <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-3xl">restaurant</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-3 font-headline text-on-surface">Restaurantes</h3>
-        <p class="text-on-surface-variant mb-6 leading-relaxed">Gestión de comandas, inventario inteligente y menús digitales sincronizados en tiempo real.</p>
-        <img
-          alt="Software para restaurantes con gestión de comandas en tiempo real"
-          class="rounded-xl w-full h-48 object-cover"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0upXIhlE17Vk2huDQzbmEGpqvbrzsyNImC6PFNA_5yPKsyftSZF66YqlpVYGURx0DjhDZA8ahk1NL6S_Ptifdt5aELwXhVITSB0YbZwskfcMe1DELtJd6wxvID7eMu8XDon_hm3uzIoRVwzDmGFJwvkl-_tHpYbwt-N11uIL-BNCEgiwSJUzTHiBKK-tOxDJWT3rJYVzQVtgXx1Lzc3dm0HEYE7pWoLw3AzrKmQMjgvhnxFfaKYnTZB-B92_EMMAiD2K6v9tNSXeM"
-          loading="lazy"
-        />
-        <a href="https://wa.me/595976771714?text=Hola%2C%20me%20interesa%20el%20sistema%20para%20restaurantes" target="_blank" rel="noopener noreferrer"
-          class="mt-6 inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
-          Saber más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
-        </a>
-      </div>
-
-      <!-- ERPs -->
-      <div class="md:col-span-3 bg-surface-container-lowest p-8 rounded-2xl shadow-sm group hover:shadow-lg transition-all duration-300 reveal">
-        <div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-3xl">analytics</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-3 font-headline text-on-surface">ERPs Corporativos</h3>
-        <p class="text-on-surface-variant mb-6 leading-relaxed">Centraliza toda tu operación: finanzas, recursos humanos y logística en una sola plataforma robusta.</p>
-        <img
-          alt="ERP Dashboard con análisis de datos empresariales"
-          class="rounded-xl w-full h-48 object-cover"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHXlMJwwZj-fIJVpIH_CiZdsUd5bi8v4OFEjGdHEMp3lFyhPrE2F2mo8HizkmLMWS-WL4w11tbZNnf-yJ8rssvi5cnMHjVJ61bw43auKyfZ_M6CTn7kEC-coZMK7EKI_1SQ9XWxQW4QBiYr6TiHWBQLKKZ2lVX7FbO1ikaaOKZzPofc_UkDhQwUoDXwEr1pJJ42MwA5CapsJZvLxTqPlgk-lVi27D__KPTyqZCEGrVARjwOtQ2b4c9xSW72t_kSfXUtGtocC1hgMLS"
-          loading="lazy"
-        />
-        <a href="https://wa.me/595976771714?text=Hola%2C%20me%20interesa%20un%20ERP%20corporativo" target="_blank" rel="noopener noreferrer"
-          class="mt-6 inline-flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all">
-          Saber más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
-        </a>
-      </div>
-
-      <!-- Barberías -->
-      <div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-2xl shadow-sm group hover:shadow-lg transition-all duration-300 reveal">
-        <div class="w-14 h-14 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary mb-6 group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-3xl">content_cut</span>
-        </div>
-        <h3 class="text-xl font-bold mb-3 font-headline text-on-surface">Barberías</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed">Agendamiento online 24/7 y control de comisiones para tus barberos.</p>
-        <a href="https://wa.me/595976771714?text=Hola%2C%20me%20interesa%20el%20sistema%20para%20barberías" target="_blank" rel="noopener noreferrer"
-          class="mt-6 inline-flex items-center gap-2 text-tertiary font-semibold text-sm hover:gap-3 transition-all">
-          Saber más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
-        </a>
-      </div>
-
-      <!-- E-commerces -->
-      <div class="md:col-span-4 bg-surface-container-lowest p-8 rounded-2xl shadow-sm group hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-8 items-center reveal">
-        <div class="flex-1">
-          <div class="w-14 h-14 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-3xl">shopping_cart</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-3 font-headline text-on-surface">E-commerces</h3>
-          <p class="text-on-surface-variant leading-relaxed">Tiendas virtuales de alto rendimiento con integración a pasarelas de pago locales como <strong class="text-on-surface">Bancard</strong> y <strong class="text-on-surface">Pagopar</strong>.</p>
-          <a href="https://wa.me/595976771714?text=Hola%2C%20quiero%20una%20tienda%20virtual" target="_blank" rel="noopener noreferrer"
-            class="mt-6 inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
-            Saber más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
-          </a>
-        </div>
-        <div class="w-full md:w-48 h-36 bg-primary/5 rounded-xl border border-primary/10 overflow-hidden flex-shrink-0">
-          <img
-            alt="Tienda virtual e-commerce en móvil"
-            class="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgnWOFezKVDBA5X4iCjN8HtaXX_BfITO00N-1LpZpu6huUujSgF84rYElwHOa6M7zSPk70OO5EIToJh4jVhkqM_EZGUrl52MTt2ZQuyJQeojZZsbdOIhRe4xz27wA0aUNg76Lyfx0uudX-E1UMIlVZXABGJh5I_kl0hcx2Vj88vGGnx41YKHjvBdjcyQKhFYFspHzyXVyLbu4cPNZ4wC6eMztLGdDJPrjJGnEWFtK6iC__gFB6WHirFiwEZMG_AnvfFW4Y3rXWxwHR"
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Portfolio Section -->
-<section class="py-24 bg-surface" id="portafolio">
-  <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="text-center mb-16 reveal">
-      <span class="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Casos de éxito</span>
-      <h2 class="text-3xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface mb-4">Nuestros Clientes</h2>
-      <p class="text-on-surface-variant text-lg max-w-xl mx-auto">Empresas que ya transformaron su operación con nuestros sistemas.</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
-      <!-- ✅ FIX AUDITORIA: rel="noopener noreferrer" em todos os links externos -->
-      <a href="https://sushitopy.com" target="_blank" rel="noopener noreferrer"
-        class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex items-center justify-center hover:border-primary/30 hover:shadow-lg transition-all duration-300 reveal aspect-square">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-primary">restaurant</span>
-          </div>
-          <p class="text-xs font-bold text-on-surface">Sushi Top</p>
-          <p class="text-xs text-outline mt-0.5">Restaurante</p>
-        </div>
-      </a>
-      <div class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex items-center justify-center hover:border-primary/30 hover:shadow-lg transition-all duration-300 reveal aspect-square">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-secondary">local_dining</span>
-          </div>
-          <p class="text-xs font-bold text-on-surface">Locanda</p>
-          <p class="text-xs text-outline mt-0.5">Gastronomía</p>
-        </div>
-      </div>
-      <div class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex items-center justify-center hover:border-primary/30 hover:shadow-lg transition-all duration-300 reveal aspect-square">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-tertiary">storefront</span>
-          </div>
-          <p class="text-xs font-bold text-on-surface">Simbora</p>
-          <p class="text-xs text-outline mt-0.5">Delivery</p>
-        </div>
-      </div>
-      <div class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex items-center justify-center hover:border-primary/30 hover:shadow-lg transition-all duration-300 reveal aspect-square">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-primary">coffee</span>
-          </div>
-          <p class="text-xs font-bold text-on-surface">Cantinho</p>
-          <p class="text-xs text-outline mt-0.5">Café</p>
-        </div>
-      </div>
-      <div class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex items-center justify-center hover:border-primary/30 hover:shadow-lg transition-all duration-300 reveal aspect-square">
-        <div class="text-center">
-          <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-secondary">wine_bar</span>
-          </div>
-          <p class="text-xs font-bold text-on-surface">Nostalgia</p>
-          <p class="text-xs text-outline mt-0.5">Bar & Grill</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="py-24 bg-surface-container-low relative overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="text-center mb-16 reveal">
-      <span class="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Confianza Local</span>
-      <h2 class="text-3xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface">Lo que dicen nuestros aliados</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 hover:shadow-md transition-all duration-300 shadow-sm reveal">
-        <div>
-          <div class="flex gap-1 mb-6" aria-label="5 de 5 estrellas">
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-          </div>
-          <p class="text-on-surface-variant italic mb-8 leading-relaxed">
-            "¡Nde zapatu! El sistema de comandas nos cambió la vida. Antes era un quilombo el salón, ahora todo fluye de maravilla. Recomendadísimos los muchachos de LinkPY."
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <img alt="Ricardo Mendoza - Dueño de Parrilla El Terruño" class="w-12 h-12 rounded-full object-cover" loading="lazy"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7dh9pPNwvPSQFY4tiCGFA-MB1cy5LaiFnWvKXagAqLt1Mg4Mi0a9AWpDcjxTU2tpWNtE23jvEfFDnl-zvkNWL0q5HjcyjxJ_449n4v_BabYyzh1C_ZxO729eTfwAMZ10hbSmAYhzPY21gmsviHoUQqverlXE-qAe47LCO1Pe5c6bxEnt76QnujY3fgbOapOqYuVHSlU2DwLzYChoxfjBrvxAKTDZfIA3UjZwmu68yinX_fRprTKp45GzDSIRALpSsLaT_9PUnZrs9" />
-          <div>
-            <p class="font-bold text-on-surface text-sm">Ricardo Mendoza</p>
-            <p class="text-xs text-outline">Dueño de Parrilla 'El Terruño', Asunción</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 hover:shadow-md transition-all duration-300 shadow-sm reveal">
-        <div>
-          <div class="flex gap-1 mb-6" aria-label="5 de 5 estrellas">
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-          </div>
-          <p class="text-on-surface-variant italic mb-8 leading-relaxed">
-            "Implementamos el ERP para nuestras tres sucursales en el Este y la trazabilidad es total. Da gusto trabajar con gente seria que entiende el mercado local."
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <img alt="Ing. Sofía Duarte - Gerente Logística CDE" class="w-12 h-12 rounded-full object-cover" loading="lazy"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ZpifhJxoh9isfbSdJ5JIXnzKw7cWNT3tylbrCJAvbV24qQ2uYWeRIaFEmfLlQPTbmMVvTjaShpKJsCmkgnfIlKMsjlp4MEe6KmM70CEEGJdAGJOwBWTDxgoOoxr0kqs-Z3e3OAOwai4ET6uVm8AFnLtTrGqOLMLdv0y9D6wyQHnUm0veP4KFfvkjKQ40gFMRaYJSj_6iXnWiFUBFTrsFx2JrHO-FyvPqySWVOiuoU89MqyLB1ipifrV6Q38qAhxFPR-gJ5ebZ5u7" />
-          <div>
-            <p class="font-bold text-on-surface text-sm">Ing. Sofía Duarte</p>
-            <p class="text-xs text-outline">Gerente Logística, CDE</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 hover:shadow-md transition-all duration-300 shadow-sm reveal">
-        <div>
-          <div class="flex gap-1 mb-6" aria-label="5 de 5 estrellas">
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-            <span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1; font-size:20px">star</span>
-          </div>
-          <p class="text-on-surface-variant italic mb-8 leading-relaxed">
-            "El e-commerce vuela. La integración con Bancard fue súper rápida y el soporte técnico siempre está ahí cuando necesitás un ajuste."
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <img alt="Marta Giménez - Fundadora de Artesanías PY" class="w-12 h-12 rounded-full object-cover" loading="lazy"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUxahJ06IvF8tWP1iIxDXDXXv7z_Y0pHrB3gYSC9G5-McdXfjecAHsX9ocSLcmHMi9zhdvd0Ya35Xv1C64JR50QbT9H_8sHOnKvBuD7gahHeLbUMBw0pq92UlomBQSXppQwsOGvwZtBnYxuOO1vdTa3Me5RhWx2lMVyAFHuIcnsP0MtkXZpXwp3NKDSTcN1MC9kb6A87PGeQj8xmZ0KdrlgsUVIxBov3l1njJ9tSSazjWNj6fHWEB86y-0_q11mZrui8GC89UIojHb" />
-          <div>
-            <p class="font-bold text-on-surface text-sm">Marta Giménez</p>
-            <p class="text-xs text-outline">Fundadora de 'Artesanías PY'</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Demo Section -->
-<section class="py-24 bg-surface overflow-hidden" id="demo">
-  <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="bg-primary rounded-[2rem] p-8 md:p-16 relative overflow-hidden reveal">
-      <div class="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        <div>
-          <h2 class="text-3xl md:text-5xl font-extrabold font-headline text-on-primary mb-6 leading-tight">
-            Observa el futuro de tu empresa en acción.
-          </h2>
-          <p class="text-on-primary/70 text-lg mb-8 leading-relaxed">
-            Nuestra interfaz está diseñada para eliminar la curva de aprendizaje. Potencia la productividad de tu equipo desde el primer día.
-          </p>
-          <ul class="space-y-4 mb-10">
-            <li class="flex items-center gap-3 text-on-primary">
-              <span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-              Interfaz 100% adaptable (Mobile First)
-            </li>
-            <li class="flex items-center gap-3 text-on-primary">
-              <span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-              Soporte técnico local garantizado
-            </li>
-            <li class="flex items-center gap-3 text-on-primary">
-              <span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-              Actualizaciones mensuales constantes
-            </li>
-          </ul>
-          <a href="https://wa.me/595976771714?text=Hola%2C%20quiero%20agendar%20una%20demostración%20de%20LinkPY" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-200">
-            Agendar Demostración en Vivo
-            <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
-          </a>
-        </div>
-
-        <!-- ✅ FIX AUDITORIA: Video real, não rickroll + lazy loading iframe -->
-        <div class="relative group" id="video-section">
-          <div class="aspect-video bg-inverse-surface rounded-2xl shadow-2xl overflow-hidden border-4 border-white/10 relative">
-            <!-- Thumbnail com botão play - iframe carrega só ao clicar (performance) -->
-            <div id="video-thumb" class="absolute inset-0 flex items-center justify-center cursor-pointer" onclick="loadVideo()">
-              <img
-                alt="Preview da demonstração do software LinkPY"
-                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk-0daVp55U-NF7NSZbmHM9dE4xAIO7F-d6hqyi0xPTgv18G_SRbyFSj4wQ-oV874Uen7IKDowZL9bmzE6e0GDcZ7jJY2MnLj4Ug2BIpJJewhWb0S3fI4QVaGCppRP7cUZV4-ZtzHiMA3mvPM18YxRF2sgRlCkX34WtJG0s4EQOu84E6DTR013dOoUg6CqP2MkRuorlYVQpbJcfWOO3FU7Yq0E9MIbs_9GO7jtdYA_5EEBIF7Jh6kQB60qyCyUl1Prs0_HMeLT_Bwc"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-black/20"></div>
-              <button class="relative z-10 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl scale-100 hover:scale-110 transition-transform" aria-label="Reproducir demo">
-                <span class="material-symbols-outlined text-primary" style="font-size:40px; font-variation-settings: 'FILL' 1;">play_arrow</span>
-              </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-md font-semibold scale-95 active:opacity-80 transition-transform shadow-md">
+                Solicitar Demo
+            </button>
+</div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Section -->
+<header class="max-w-7xl mx-auto px-8 py-16 text-center md:text-left">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold uppercase tracking-widest mb-6">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+                Casos de Éxito
             </div>
-            <div id="video-iframe-container" class="hidden w-full h-full"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface mb-6 max-w-4xl">
+                Software en acción: Elevando el estándar <span class="text-primary">tecnológico</span>.
+            </h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+                Nuestros proyectos no son solo líneas de código; son motores de crecimiento diseñados en Paraguay para impactar mercados globales.
+            </p>
+</header>
+<!-- Success Stories Grid (Asymmetric Bento Style) -->
+<section class="max-w-7xl mx-auto px-8 space-y-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Main Featured Project -->
+<div class="md:col-span-8 group bg-surface-container-low rounded-xl overflow-hidden shadow-sm transition-all duration-500 hover:shadow-xl">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern high-tech dashboard interface displaying real-time financial data analytics with clean typography and blue accent colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3HRXPdec0mYEx95UVjP5fciM6aHyQsM45GvJM-F8Y8OPXYenESrvVbGPxB82PEP9-lm_UsgI4k6V59I8kbsKu-AbPBHTgUznxEAkIFuFD0p_AYW2R-w9yV51wyH2MIvQRitq9XJxY7ECHh_v3ZmZem66VMp0lwpFwooZIwt4xLv2kjWFAFjQMId9CK0UN40xAmXPkMrWjQdP5THJQWd51mTBh8JuCunonpflzEJTwNfsesjoE-CmF70zku5FtQZyRazVkNCW9x-Cn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 to-transparent flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+<span class="text-primary-fixed font-bold text-sm tracking-widest mb-2">FINTECH</span>
+<h3 class="text-white text-3xl font-bold">Plataforma de Créditos PyME</h3>
+</div>
+</div>
+<div class="p-8 bg-surface-container-lowest">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="Minimalist corporate logo icon with abstract geometric shapes in shades of blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGww9TVBPBUS_L1Sj_0IMwA3KIeqqETm3RS7eFncdu2_Tz1Z77EeQqwLLmzxdytXvkFfKY0tdV3aBAhBywjv_xdSXjE4wy0Gx4SQ_Flm2OKxEJwd7Lr7dZiQjj9MbCahry_tl0wpc3oayoSFCKOKp3KPevMuRLDASQf4-kYughnAwjxZSsX1PiqUubrQNWD8bQJYdLt2outdO7sQg0IDJWEkVnNd0GyPgplzWNgBKJDlAg8wHy7UqFaZtrRdE9sXwBn_y0bF5Z9oLq"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Banco Digital Central</h4>
+<p class="text-sm text-outline">Sector Financiero</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">arrow_outward</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed">
+                            Automatización integral del proceso de evaluación de riesgos mediante algoritmos personalizados, reduciendo el tiempo de aprobación de 5 días a 15 minutos.
+                        </p>
+</div>
+</div>
+<!-- Secondary Featured -->
+<div class="md:col-span-4 group bg-surface-container-low rounded-xl overflow-hidden shadow-sm transition-all duration-500 hover:shadow-xl flex flex-col">
+<div class="relative flex-grow aspect-square overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Elegant smartphone app interface showing a logistics tracking map with sleek dark mode design and neon highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuQ9Ft9jqWmg42cdw-N1A6pQvwdv5HscoeD3sPPsbda3dbOeLJXr8eEXATvXo7BaKuxnp8VLqIF0QbYsoD_S2ExIc9P4EZC_F1tsYreC4utJO9qOb-CVewSKFZbcqEvABOg7FfvOJJuBogyZAHOy-OqakUqeib5epviYC_5VYFsbgWGZBelqV4oolvZ7Gd-3wl0kX7th62AQDZarKuzs9jbYawGxfyKnD_Ja0SgKeNwu3BPhoJ5sjlrLHDiWYqTsZ5KfHlzLtZcrUt"/>
+</div>
+<div class="p-6 bg-surface-container-lowest">
+<span class="text-xs font-bold text-primary uppercase tracking-tighter">Logística AI</span>
+<h3 class="text-xl font-bold text-on-surface mt-1 mb-3 tracking-tight">SmartRouter Paraguay</h3>
+<p class="text-sm text-on-surface-variant mb-6">Optimización de flotas pesadas con geolocalización en tiempo real.</p>
+<div class="flex items-center gap-2">
+<span class="text-xs px-2 py-1 bg-surface-container text-outline rounded">Real-time</span>
+<span class="text-xs px-2 py-1 bg-surface-container text-outline rounded">React Native</span>
+</div>
+</div>
+</div>
+</div>
+<!-- More Projects Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 3 -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group">
+<div class="p-1">
+<div class="rounded-lg overflow-hidden h-48 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Telemedicine platform screen showing a clean doctor consultation interface with medical charts and icons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCWwmPYZJ0kdz80UagecFPc6ioILndE4JJdyQQXc25Bxbju1PUhyHkS_-4788kJDKEyXEeIm0nx26Ns85lLrvSg8SgoJX2WR-zcjA_swTJtHQqR7a9dOQi2DNalsMMWKy_qfA-rX2YpiWweGh-BiQLVi0sEUo9FVIyX2LooGqdjOeqNTDPlxSv2Yvb5VTPGucU21wHd6ZqFTHXqfCnavEPkJJYfwA-nPMD8A61Zq6oS8xEE4KEexsxV6EfytVYxJ1RvtuTVRSQiLvx"/>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h4 class="font-bold text-lg text-on-surface mb-2">SaludConecta</h4>
+<p class="text-sm text-on-surface-variant line-clamp-2">Sistema de gestión hospitalaria y telemedicina para red de clínicas privadas.</p>
+<hr class="my-4 border-none bg-surface-container-high h-px"/>
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="Small medical clinic logo with blue cross and clean font" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCyUjRIgGqbgaZQFcv0WzgLfNGg33Dn0hvkTqRuw3-VFv37qIxun5Ty8G7GMtEU_eb3cuZthvGnJdGKunwEBrla0WeIuVhwIfN_tOutviwWsVuTmVSpHqD57lBd4Yhl_rJJcLzMvqSN5GzDgte5GegbdBH0HjZQ1CqH_OSmzfwBWIw4LPi9vvGi0oOWu3QwdHngFNzF42vw2trQvlJRTi7CLJMKRybbGWDYRhKKCkBTcv0_brWapuwkLHLuATFuKhxbDb6Tmp4YGvG"/>
+<span class="text-xs text-outline italic">MedLink Group</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group">
+<div class="p-1">
+<div class="rounded-lg overflow-hidden h-48 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Detailed view of an e-commerce checkout flow on a tablet with vibrant product images and secure payment UI" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcDTjFAZXIxNZTSOx27A6v4rv4PTwvVNJitD-2jCzY1G3Zb20V-4PZ5cVUhGHIZV2NPVk0SWASt8EW7QJ1GE0ACXvxOne8gzALMcwxp8en6YqCX1XKrjJT9YqKwzOIh7xgt4_lg8AlsN9zjcGCgfiMX2RykKz-eRhXtDzwp0RBvwEgtkxLKjbTbNL78GmXwCLEd9wtI5CZBd_2f4O-ct1KBjyv-CG7YLwV-NciJTN8XEXA9zCk8sI9kP92zLU4-t2Vjs-NVYtv_v9S"/>
+</div>
+</div>
+<div class="p-6">
+<h4 class="font-bold text-lg text-on-surface mb-2">AgroExport Portal</h4>
+<p class="text-sm text-on-surface-variant line-clamp-2">Marketplace B2B para la exportación de granos y trazabilidad blockchain.</p>
+<hr class="my-4 border-none bg-surface-container-high h-px"/>
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="Agricultural cooperative logo with green leaf and blue sky theme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdxDg1IlWfpM5RjvME-ynGHFlkPUt03uvm73CsCBMAxzjB5ZtElVbJV1Ozm4XXVhzf0qKHyKN-WOL4a1K9BNlNX1Ce97H55nEcL9oylxPbRHP49giLYHpA236EB1pvYMkvOS9ec7XwFpOA5-uc8669C943R1e89mxPOvK-F-tS9BM5xUH3gOTRsrROUSXh6wp5CQ4TrvBxl0bXPje_ru4D2F4jYkzzZ36TebcNpOk44eCwaygEh_Y3s6erEYJjy-MiL7KLRd9iQA4e"/>
+<span class="text-xs text-outline italic">Unión de Productores</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group">
+<div class="p-1">
+<div class="rounded-lg overflow-hidden h-48 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interior of a modern coworking space with software developers working on multiple screens with code and design apps" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt1-cQ-Fl4satP0WkhczR8sd4cbN6SslTSqfKC8Qvi3sz_Zh7eVXqm_U51kg-obEpK5rkHrh5fppAnykpM0YOpzXY3vorfHroI8398fF4m68Vp__bllygDO3fIohpJON_jV0gOt97jMiEnJe5CLwh4dFoqtxeeUXrsE1RZ1HlJAvxJouNuXwL2XgYuO9ydbxjNE4uSeG2GRbtyqmlfreQ6-HoF7B29nLWeepOg2IK7qk1hdk9RpP467qGhQIjH1_h9iAfKyDXmd4AO"/>
+</div>
+</div>
+<div class="p-6">
+<h4 class="font-bold text-lg text-on-surface mb-2">Core HR Link</h4>
+<p class="text-sm text-on-surface-variant line-clamp-2">Plataforma de gestión de talento y nóminas automatizada para multinacionales.</p>
+<hr class="my-4 border-none bg-surface-container-high h-px"/>
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="Corporate office building logo in minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmQZTI5oHUyru6o0ZOW5rQag17FeJTKpewavzbTbjcj9QB9I4ucoZLwGS0vdTjAbBBkB2kHmZSyu02rkL0gLKJPm0P3Q2fCQw_CGI9mj7jv-Hv1LkWpAAyshK2h0JesHDgMGKOXbWTij-beqztb-ZlF-u3Blag9FsxwfoEgHXFKfrhb8JhU8p9Fs9YyifGYCdUk0XzF_bHgcDqYLP1heH-3xIskV-kEMvGaMqQo2GrdtwV6P_rby_SBwihYXrxEG5N5RsuRzGc91_D"/>
+<span class="text-xs text-outline italic">Nexus Global</span>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CTA Final / Contacto -->
-<section class="py-24 bg-surface-container-low text-center" id="contacto">
-  <div class="max-w-3xl mx-auto px-6 md:px-8 reveal">
-    <span class="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Hablemos</span>
-    <h2 class="text-3xl md:text-5xl font-extrabold font-headline text-on-surface mb-6 tracking-tight">¿Listo para digitalizar tu empresa?</h2>
-    <p class="text-on-surface-variant text-lg mb-10 leading-relaxed">
-      Nuestro equipo está en Asunción y disponible para escuchar tu proyecto. Sin compromisos, sin presupuesto oculto.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="https://wa.me/595976771714?text=Hola%2C%20quiero%20cotizar%20un%20sistema" target="_blank" rel="noopener noreferrer"
-        class="inline-flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#1ebe5d] transition-all shadow-lg shadow-green-500/20 hover:shadow-xl hover:scale-105">
-        <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Chatear por WhatsApp
-      </a>
-      <a href="mailto:hola@linkpy.com.py"
-        class="inline-flex items-center justify-center gap-2 bg-surface-container-highest text-on-surface px-8 py-4 rounded-xl font-bold hover:bg-outline-variant/30 transition-all">
-        <span class="material-symbols-outlined" style="font-size:20px">mail</span>
-        hola@linkpy.com.py
-      </a>
-    </div>
-  </div>
+<!-- Dynamic Content Section: Statistics -->
+<section class="mt-24 bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="md:w-1/2">
+<h2 class="text-4xl font-extrabold tracking-tight mb-6">Impacto medible en cada entrega.</h2>
+<p class="text-on-surface-variant leading-relaxed mb-8">
+                            No solo entregamos software; entregamos resultados de negocio. Nuestra metodología en LinkPY se centra en KPIs que transforman la operativa diaria de nuestros clientes.
+                        </p>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<div class="text-4xl font-black text-primary mb-1">98%</div>
+<div class="text-sm font-bold uppercase tracking-wider text-outline">Satisfacción</div>
+</div>
+<div>
+<div class="text-4xl font-black text-primary mb-1">+40k</div>
+<div class="text-sm font-bold uppercase tracking-wider text-outline">Usuarios Activos</div>
+</div>
+</div>
+</div>
+<div class="md:w-1/2 relative">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-lg border border-outline-variant/10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-3 h-3 rounded-full bg-red-400"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+<div class="w-3 h-3 rounded-full bg-green-400"></div>
+<div class="ml-auto text-xs font-mono text-outline">success_rate_analysis.json</div>
+</div>
+<div class="space-y-4">
+<div class="h-2 w-full bg-surface-container rounded overflow-hidden">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+<div class="h-2 w-full bg-surface-container rounded overflow-hidden">
+<div class="h-full bg-secondary w-3/4"></div>
+</div>
+<div class="h-2 w-full bg-surface-container rounded overflow-hidden">
+<div class="h-full bg-primary-container w-full"></div>
+</div>
+</div>
+<p class="mt-6 text-sm italic text-on-surface-variant font-medium">
+                                "La eficiencia operativa aumentó en un 40% durante el primer semestre de implementación."
+                            </p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
+<!-- CTA Section -->
+<section class="max-w-5xl mx-auto px-8 mt-24">
+<div class="hero-gradient rounded-3xl p-12 md:p-20 text-center relative overflow-hidden">
+<div class="relative z-10">
+<h2 class="text-white text-3xl md:text-5xl font-black mb-6 tracking-tight">¿Listo para construir el futuro de tu empresa?</h2>
+<p class="text-on-primary-container text-lg mb-10 max-w-2xl mx-auto opacity-90">
+                        Transformamos tus ideas más complejas en sistemas funcionales, escalables y estéticos.
+                    </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto px-10 py-4 bg-surface-container-lowest text-primary font-bold rounded-xl shadow-lg hover:bg-white transition-colors">
+                            Hablemos de tu proyecto
+                        </button>
+<button class="w-full sm:w-auto px-10 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">
+                            Descargar Credenciales
+                        </button>
+</div>
+</div>
+<!-- Abstract BG Elements -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
+</div>
+</section>
+</main>
 <!-- Footer -->
 <footer class="bg-slate-50 border-t border-slate-200">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 md:px-8 py-12 max-w-7xl mx-auto">
-    <div class="col-span-1">
-      <div class="text-xl font-black text-slate-900 mb-4 font-headline">LinkPY</div>
-      <p class="text-sm text-slate-500 leading-relaxed mb-4">
-        Elevando el estándar tecnológico desde Paraguay hacia el mercado global. Innovación con sello guaraní.
-      </p>
-      <a href="https://wa.me/595976771714" target="_blank" rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 text-sm text-[#25D366] font-semibold hover:underline">
-        <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        +595 976 771 714
-      </a>
-    </div>
-
-    <div>
-      <h4 class="font-headline font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Soluciones</h4>
-      <ul class="space-y-3 text-sm text-slate-500">
-        <li><a class="hover:text-blue-600 transition-colors" href="#soluciones">Sistemas ERP</a></li>
-        <li><a class="hover:text-blue-600 transition-colors" href="#soluciones">Gestión Gastronómica</a></li>
-        <li><a class="hover:text-blue-600 transition-colors" href="#soluciones">Apps Móviles</a></li>
-        <li><a class="hover:text-blue-600 transition-colors" href="#soluciones">E-commerce</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h4 class="font-headline font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Empresa</h4>
-      <ul class="space-y-3 text-sm text-slate-500">
-        <li><a class="hover:text-blue-600 transition-colors" href="#">Política de Privacidad</a></li>
-        <li><a class="hover:text-blue-600 transition-colors" href="#">Términos de Servicio</a></li>
-        <li><a class="hover:text-blue-600 transition-colors" href="#">Soporte</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h4 class="font-headline font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Contacto</h4>
-      <address class="not-italic">
-        <p class="text-sm text-slate-500 mb-1">Asunción, Paraguay</p>
-        <p class="text-sm text-slate-500 mb-1">Loma Pyta</p>
-        <a href="mailto:hola@linkpy.com.py" class="text-sm text-blue-600 hover:underline block mb-4">hola@linkpy.com.py</a>
-      </address>
-      <div class="flex gap-3">
-        <a class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#" aria-label="LinkedIn">
-          <span class="material-symbols-outlined" style="font-size:18px">share</span>
-        </a>
-        <a class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-colors" href="mailto:hola@linkpy.com.py" aria-label="Email">
-          <span class="material-symbols-outlined" style="font-size:18px">alternate_email</span>
-        </a>
-        <a class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#" aria-label="Sitio web">
-          <span class="material-symbols-outlined" style="font-size:18px">public</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ✅ FIX AUDITORIA: Footer com estilo + copyright 2026 -->
-  <div class="max-w-7xl mx-auto px-6 md:px-8 py-5 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
-    <p class="text-sm text-slate-400">© 2026 LinkPY Software Factory. Todos los derechos reservados.</p>
-    <div class="flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-      <span class="text-xs font-bold text-slate-400 tracking-wider uppercase">Sistemas Operativos</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ✅ Botão flutuante WhatsApp -->
-<a href="https://wa.me/595976771714?text=Hola%2C%20necesito%20información%20sobre%20los%20sistemas%20de%20LinkPY" target="_blank" rel="noopener noreferrer"
-  class="wpp-float fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
-  aria-label="Contactar por WhatsApp">
-  <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<div class="text-xl font-black text-slate-900 mb-4">LinkPY</div>
+<p class="font-inter text-sm text-slate-500 leading-relaxed">
+                    Elevando el estándar tecnológico desde Paraguay. Soluciones de software de clase mundial para empresas visionarias.
+                </p>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 mb-4">Empresa</h5>
+<ul class="space-y-2 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Sobre Nosotros</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Carreras</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Soporte</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 mb-4">Legal</h5>
+<ul class="space-y-2 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Privacidad</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Términos</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 mb-4">Síguenos</h5>
+<div class="flex gap-4">
+<a class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">language</span>
 </a>
+<a class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">hub</span>
+</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 py-6 border-t border-slate-200 text-center md:text-left">
+<p class="font-inter text-sm text-slate-500">© 2024 LinkPY Software Factory. Elevando el estándar tecnológico desde Paraguay.</p>
+</div>
+</footer>
+</body></html>
 
-<script>
-  // ✅ Hamburger menu
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
+<!-- LinkPY - Servicios -->
+<!DOCTYPE html>
 
-  menuToggle.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    menuIcon.textContent = isOpen ? 'close' : 'menu';
-    menuToggle.setAttribute('aria-expanded', isOpen);
-  });
-
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('open');
-    menuIcon.textContent = 'menu';
-    menuToggle.setAttribute('aria-expanded', 'false');
-  }
-
-  // ✅ FIX AUDITORIA: Smooth scroll para links internos
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servicios | LinkPY Software Factory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#faf8ff",
+              "inverse-primary": "#b0c6ff",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#b0c6ff",
+              "inverse-surface": "#2e3038",
+              "on-secondary-fixed": "#00201f",
+              "outline-variant": "#c3c6d6",
+              "secondary-fixed-dim": "#2edcd7",
+              "on-primary": "#ffffff",
+              "primary": "#003f95",
+              "surface-container-high": "#e7e7f2",
+              "tertiary": "#831a21",
+              "surface-tint": "#215abd",
+              "inverse-on-surface": "#f0f0fb",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#d9e2ff",
+              "on-error": "#ffffff",
+              "surface": "#faf8ff",
+              "on-tertiary-container": "#ffc5c2",
+              "surface-container-low": "#f3f3fd",
+              "on-primary-container": "#c3d2ff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e1e2ec",
+              "on-surface": "#191b23",
+              "tertiary-fixed": "#ffdad8",
+              "on-tertiary-fixed": "#410006",
+              "tertiary-fixed-dim": "#ffb3b0",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#a43236",
+              "outline": "#737685",
+              "surface-container": "#ededf8",
+              "on-tertiary-fixed-variant": "#881d24",
+              "on-background": "#191b23",
+              "secondary-container": "#5af9f3",
+              "on-primary-fixed-variant": "#00429b",
+              "on-primary-fixed": "#001945",
+              "on-secondary-container": "#00706e",
+              "on-surface-variant": "#434654",
+              "surface-variant": "#e1e2ec",
+              "secondary-fixed": "#5af9f3",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9d9e4",
+              "secondary": "#006a67",
+              "primary-container": "#1c56b9",
+              "surface-bright": "#faf8ff",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#00504e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
       }
-    });
-  });
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl shadow-sm">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-900 font-headline">LinkPY</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Inicio</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-700 font-manrope tracking-tight" href="#">Servicios</a>
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Portafolio</a>
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Contacto</a>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-lg font-semibold scale-95 active:opacity-80 transition-transform">Solicitar Demo</button>
+</div>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<header class="max-w-7xl mx-auto px-8 mb-24">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="space-y-6">
+<span class="text-primary font-bold tracking-widest text-sm uppercase">Soluciones de Clase Mundial</span>
+<h1 class="text-5xl md:text-7xl font-extrabold font-headline text-on-surface tracking-tighter leading-tight">
+                        Software que impulsa el <span class="text-primary">futuro local.</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-lg leading-relaxed">
+                        Desarrollamos ecosistemas digitales a medida, diseñados específicamente para los desafíos del mercado paraguayo. Tecnología transparente, arquitectura robusta.
+                    </p>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/5 rounded-3xl blur-2xl group-hover:bg-primary/10 transition-colors duration-500"></div>
+<img alt="Ingenieros de software colaborando en un entorno moderno de oficina con pantallas de alta tecnología" class="relative rounded-2xl w-full h-[450px] object-cover shadow-2xl" data-alt="clean minimal office setting with software developers collaborating on digital interfaces and futuristic screens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIAadAszN7Y5q510mB8Ck8s9ca8pPOxM80Q5jvaOB84unpMC6sWDemwM7HvFMN3fKufVRREEsrUDPflvK5r4rUFed3T3IBSNQ4wK-timhZ0HQZyoVWdSo5jP3uXeJwrcc8gZgyWlgFt1xwXkzBhtwcosO2O3v-CrJGOhgbWiPM8tCAURJkE1lSRKTDZRVd_6idMluOGXgovLgx-Wicje8fOyuXeCirlQM6QlY2IhIEApi5nkA_VeBMax-HyMYYhm0LmHiGV6QK80WH"/>
+</div>
+</div>
+</header>
+<section class="max-auto px-8 mb-32 bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16 text-center md:text-left">
+<h2 class="text-4xl font-bold font-headline mb-4">Nuestras Especialidades</h2>
+<p class="text-on-surface-variant max-w-2xl">Arquitectura digital transparente aplicada a verticales de negocio críticas.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Restaurantes -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">restaurant_menu</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-3">Restaurantes</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Optimizá la experiencia del comensal y la gestión operativa.</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Menú Digital QR</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Gestión de Pedidos</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Control de Mesas</li>
+</ul>
+</div>
+<!-- ERP & Inventario -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">inventory_2</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-3">ERP &amp; Negocios</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Control absoluto sobre tus activos y flujo de caja.</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Facturación Electrónica SIFEN</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Inventario Inteligente</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Reportes de Gestión</li>
+</ul>
+</div>
+<!-- Barberías & Agendas -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">calendar_month</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-3">Barberías &amp; Spas</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Agendas automatizadas para que tu tiempo sea productivo.</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Reservas Online 24/7</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Recordatorios vía WhatsApp</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Perfil de Clientes</li>
+</ul>
+</div>
+<!-- E-commerce -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">shopping_cart</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-3">E-commerce</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Tu tienda abierta al mundo con pagos locales integrados.</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Pasarelas de Pago PY</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> Logística de Envíos</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-xs text-primary">check_circle</span> UX de Alta Conversión</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto px-8 mb-32">
+<div class="grid lg:grid-cols-3 gap-12 bg-primary text-on-primary p-12 rounded-3xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-20 -mt-20"></div>
+<div class="lg:col-span-1 space-y-6">
+<h2 class="text-3xl font-bold font-headline leading-tight">¿Por qué elegir sistemas a medida?</h2>
+<p class="text-on-primary-container leading-relaxed">En LinkPY no creemos en "talle único". Tu negocio es único, y tu software debe serlo también.</p>
+<button class="bg-surface text-primary px-8 py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all">Hablar con un Experto</button>
+</div>
+<div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
+<div class="space-y-3">
+<div class="text-secondary-fixed font-bold text-4xl mb-2">01.</div>
+<h4 class="text-xl font-bold">Escalabilidad Sin Límites</h4>
+<p class="text-on-primary-container text-sm">Tu software crece con vos. Sin licencias por usuario que frenen tu expansión.</p>
+</div>
+<div class="space-y-3">
+<div class="text-secondary-fixed font-bold text-4xl mb-2">02.</div>
+<h4 class="text-xl font-bold">Seguridad de Datos</h4>
+<p class="text-on-primary-container text-sm">Infraestructura propia con los más altos estándares de encriptación y respaldo.</p>
+</div>
+<div class="space-y-3">
+<div class="text-secondary-fixed font-bold text-4xl mb-2">03.</div>
+<h4 class="text-xl font-bold">Integración Local</h4>
+<p class="text-on-primary-container text-sm">Conectado nativamente con bancos, pasarelas de pago y servicios de Paraguay.</p>
+</div>
+<div class="space-y-3">
+<div class="text-secondary-fixed font-bold text-4xl mb-2">04.</div>
+<h4 class="text-xl font-bold">Soporte Humano</h4>
+<p class="text-on-primary-container text-sm">Nada de tickets infinitos. Soporte directo de nuestros ingenieros en tu idioma.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold font-headline mb-4">Preguntas Frecuentes</h2>
+<div class="w-24 h-1 bg-primary mx-auto"></div>
+</div>
+<div class="max-w-3xl mx-auto space-y-4">
+<details class="group bg-surface-container-low p-6 rounded-xl cursor-pointer">
+<summary class="flex items-center justify-between font-bold list-none">
+<span>¿Cuánto tiempo toma desarrollar un sistema?</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Depende de la complejidad, pero nuestros MVP (Productos Mínimos Viables) suelen estar listos en un periodo de 4 a 8 semanas, asegurando que puedas empezar a operar rápido.
+                    </p>
+</details>
+<details class="group bg-surface-container-low p-6 rounded-xl cursor-pointer">
+<summary class="flex items-center justify-between font-bold list-none">
+<span>¿Los sistemas son compatibles con dispositivos móviles?</span>
+<summary class="hidden"></summary>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Absolutamente. Todos nuestros desarrollos son "Mobile First", garantizando una experiencia fluida tanto en smartphones como en tablets y PCs.
+                    </p>
+</details>
+<details class="group bg-surface-container-low p-6 rounded-xl cursor-pointer">
+<summary class="flex items-center justify-between font-bold list-none">
+<span>¿Integran facturación electrónica legal?</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-4 text-on-surface-variant text-sm leading-relaxed">
+                        Sí, estamos totalmente preparados para integrar el sistema SIFEN de la SET, automatizando el envío y validación de tus comprobantes legales de forma transparente.
+                    </p>
+</details>
+</div>
+</section>
+</main>
+<footer class="bg-slate-50 border-t border-slate-200">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div class="space-y-4">
+<div class="text-xl font-black text-slate-900">LinkPY</div>
+<p class="text-slate-500 text-sm leading-relaxed">
+                    Transformando la industria del software en Paraguay con ingeniería de precisión y visión global.
+                </p>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-on-surface">Enlaces Rápidos</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-blue-500 hover:underline decoration-blue-500 underline-offset-4 text-sm transition-opacity" href="#">Soporte</a></li>
+<li><a class="text-slate-400 hover:text-blue-500 hover:underline decoration-blue-500 underline-offset-4 text-sm transition-opacity" href="#">Carreras</a></li>
+<li><a class="text-slate-400 hover:text-blue-500 hover:underline decoration-blue-500 underline-offset-4 text-sm transition-opacity" href="#">Blog Técnico</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-on-surface">Legal</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-400 hover:text-blue-500 hover:underline decoration-blue-500 underline-offset-4 text-sm transition-opacity" href="#">Privacidad</a></li>
+<li><a class="text-slate-400 hover:text-blue-500 hover:underline decoration-blue-500 underline-offset-4 text-sm transition-opacity" href="#">Términos</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-on-surface">Contacto</h4>
+<p class="text-slate-500 text-sm">Asunción, Paraguay</p>
+<p class="text-slate-500 text-sm">hola@linkpy.com.py</p>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 py-6 border-t border-slate-200/50">
+<p class="text-inter text-sm text-slate-500 text-center md:text-left">
+                © 2024 LinkPY Software Factory. Elevando el estándar tecnológico desde Paraguay.
+            </p>
+</div>
+</footer>
+</body></html>
 
-  // ✅ Scroll reveal com IntersectionObserver
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
+<!-- LinkPY - Inicio con Testimonios -->
+<!DOCTYPE html>
+
+<html class="light" lang="es-PY"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LinkPY | Software Factory Paraguay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#faf8ff",
+              "inverse-primary": "#b0c6ff",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#b0c6ff",
+              "inverse-surface": "#2e3038",
+              "on-secondary-fixed": "#00201f",
+              "outline-variant": "#c3c6d6",
+              "secondary-fixed-dim": "#2edcd7",
+              "on-primary": "#ffffff",
+              "primary": "#003f95",
+              "surface-container-high": "#e7e7f2",
+              "tertiary": "#831a21",
+              "surface-tint": "#215abd",
+              "inverse-on-surface": "#f0f0fb",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#d9e2ff",
+              "on-error": "#ffffff",
+              "surface": "#faf8ff",
+              "on-tertiary-container": "#ffc5c2",
+              "surface-container-low": "#f3f3fd",
+              "on-primary-container": "#c3d2ff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e1e2ec",
+              "on-surface": "#191b23",
+              "tertiary-fixed": "#ffdad8",
+              "on-tertiary-fixed": "#410006",
+              "tertiary-fixed-dim": "#ffb3b0",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#a43236",
+              "outline": "#737685",
+              "surface-container": "#ededf8",
+              "on-tertiary-fixed-variant": "#881d24",
+              "on-background": "#191b23",
+              "secondary-container": "#5af9f3",
+              "on-primary-fixed-variant": "#00429b",
+              "on-primary-fixed": "#001945",
+              "on-secondary-container": "#00706e",
+              "on-surface-variant": "#434654",
+              "surface-variant": "#e1e2ec",
+              "secondary-fixed": "#5af9f3",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9d9e4",
+              "secondary": "#006a67",
+              "primary-container": "#1c56b9",
+              "surface-bright": "#faf8ff",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#00504e"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
       }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  // ✅ Nav link ativo baseado no scroll
-  const sections = document.querySelectorAll('section[id], header[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + entry.target.id) {
-            link.classList.add('active');
-          }
-        });
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
-    });
-  }, { threshold: 0.4 });
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl shadow-sm">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-900">LinkPY</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-blue-700 font-bold border-b-2 border-blue-700 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Inicio</a>
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Servicios</a>
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Portafolio</a>
+<a class="text-slate-600 hover:text-blue-600 font-manrope font-semibold tracking-tight transition-all duration-300" href="#">Contacto</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-xl font-manrope font-semibold scale-95 active:opacity-80 transition-transform shadow-lg shadow-primary/20">
+            Solicitar Demo
+        </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary-container/10 rounded-full blur-[100px]"></div>
+</div>
+<div class="max-w-7xl mx-auto px-8 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold tracking-widest uppercase mb-6">
+                    Software Factory Premium
+                </span>
+<h1 class="text-5xl md:text-7xl font-extrabold font-headline text-on-surface leading-[1.1] tracking-tighter mb-8">
+                    Sistemas a medida para tu negocio en <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-container">Paraguay</span>.
+                </h1>
+<p class="text-lg md:text-xl text-on-surface-variant mb-10 max-w-lg leading-relaxed">
+                    Transformamos la complejidad técnica en herramientas digitales intuitivas. Desde Asunción proyectando innovación al mundo.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-all">
+                        Empezar un Proyecto
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-surface-container-high text-on-surface px-8 py-4 rounded-xl font-bold hover:bg-surface-container-highest transition-all">
+                        Ver Portafolio
+                    </button>
+</div>
+</div>
+<div class="relative">
+<div class="rounded-2xl overflow-hidden shadow-2xl bg-surface-container-low p-2">
+<img alt="Dashboard de software" class="rounded-xl w-full h-auto object-cover aspect-video shadow-inner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJwvK4YawREMSTS4pfC7BhzdJIUkaRBV7GhtwqymSBoCG97cG3DHEYSjXp18sc7NGztDyRaX5eyVA6Ym7ZGVaeS08tnGJGPlyeuv_EdKL0TgwaSf2CzUSzjnvxT-0AqUHk_EUXBP6cns4V_GZxk_CU5movxGMi2EiE9gmBMrU4X5CRoArNwfkwa8hfO0I7zulKsFKYDcr09aZC5hv-B1PaYeb-3FzKqnodG5fwIBxdEUHn534_EFAnjz41x4Z53sDxdHBD5HrjwJFs"/>
+</div>
+<!-- Floating Badge -->
+<div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 border border-outline-variant/20">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<p class="text-xs text-outline font-bold">CALIDAD GARANTIZADA</p>
+<p class="text-on-surface font-bold">ISO 9001 Compliance</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Services Grid (Bento Style) -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-16">
+<h2 class="text-3xl md:text-5xl font-extrabold font-headline mb-4 tracking-tight">Soluciones Especializadas</h2>
+<p class="text-on-surface-variant text-lg">Desarrollamos ecosistemas digitales adaptados al mercado local.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+<!-- Restaurantes -->
+<div class="md:col-span-3 bg-surface-container-lowest p-8 rounded-xl shadow-sm group hover:shadow-md transition-all">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">restaurant</span>
+</div>
+<h3 class="text-2xl font-bold mb-3 font-headline">Restaurantes</h3>
+<p class="text-on-surface-variant mb-6">Gestión de comandas, inventario inteligente y menús digitales sincronizados en tiempo real.</p>
+<img alt="Software para restaurantes" class="rounded-lg w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0upXIhlE17Vk2huDQzbmEGpqvbrzsyNImC6PFNA_5yPKsyftSZF66YqlpVYGURx0DjhDZA8ahk1NL6S_Ptifdt5aELwXhVITSB0YbZwskfcMe1DELtJd6wxvID7eMu8XDon_hm3uzIoRVwzDmGFJwvkl-_tHpYbwt-N11uIL-BNCEgiwSJUzTHiBKK-tOxDJWT3rJYVzQVtgXx1Lzc3dm0HEYE7pWoLw3AzrKmQMjgvhnxFfaKYnTZB-B92_EMMAiD2K6v9tNSXeM"/>
+</div>
+<!-- ERPs -->
+<div class="md:col-span-3 bg-surface-container-lowest p-8 rounded-xl shadow-sm group hover:shadow-md transition-all">
+<div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">analytics</span>
+</div>
+<h3 class="text-2xl font-bold mb-3 font-headline">ERPs Corporativos</h3>
+<p class="text-on-surface-variant mb-6">Centraliza toda tu operación: finanzas, recursos humanos y logística en una sola plataforma robusta.</p>
+<img alt="ERP Dashboard" class="rounded-lg w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHXlMJwwZj-fIJVpIH_CiZdsUd5bi8v4OFEjGdHEMp3lFyhPrE2F2mo8HizkmLMWS-WL4w11tbZNnf-yJ8rssvi5cnMHjVJ61bw43auKyfZ_M6CTn7kEC-coZMK7EKI_1SQ9XWxQW4QBiYr6TiHWBQLKKZ2lVX7FbO1ikaaOKZzPofc_UkDhQwUoDXwEr1pJJ42MwA5CapsJZvLxTqPlgk-lVi27D__KPTyqZCEGrVARjwOtQ2b4c9xSW72t_kSfXUtGtocC1hgMLS"/>
+</div>
+<!-- Barberías -->
+<div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-sm group hover:shadow-md transition-all">
+<div class="w-14 h-14 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">content_cut</span>
+</div>
+<h3 class="text-xl font-bold mb-3 font-headline">Barberías</h3>
+<p class="text-on-surface-variant text-sm">Agendamiento online 24/7 y control de comisiones para tus barberos.</p>
+</div>
+<!-- E-commerces -->
+<div class="md:col-span-4 bg-surface-container-lowest p-8 rounded-xl shadow-sm group hover:shadow-md transition-all flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1">
+<div class="w-14 h-14 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">shopping_cart</span>
+</div>
+<h3 class="text-2xl font-bold mb-3 font-headline">E-commerces</h3>
+<p class="text-on-surface-variant">Tiendas virtuales de alto rendimiento con integración a pasarelas de pago locales como Bancard y Pagopar.</p>
+</div>
+<div class="w-full md:w-48 h-32 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-center overflow-hidden">
+<img alt="E-commerce mobile view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgnWOFezKVDBA5X4iCjN8HtaXX_BfITO00N-1LpZpu6huUujSgF84rYElwHOa6M7zSPk70OO5EIToJh4jVhkqM_EZGUrl52MTt2ZQuyJQeojZZsbdOIhRe4xz27wA0aUNg76Lyfx0uudX-E1UMIlVZXABGJh5I_kl0hcx2Vj88vGGnx41YKHjvBdjcyQKhFYFspHzyXVyLbu4cPNZ4wC6eMztLGdDJPrjJGnEWFtK6iC__gFB6WHirFiwEZMG_AnvfFW4Y3rXWxwHR"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-24 bg-surface relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Confianza Local</span>
+<h2 class="text-3xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface">Lo que dicen nuestros aliados</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 transition-colors shadow-sm">
+<div>
+<div class="flex gap-1 text-primary-container mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface-variant italic mb-8 leading-relaxed">
+                        "¡Nde zapatu! El sistema de comandas nos cambió la vida. Antes era un quilombo el salón, ahora todo fluye de maravilla. Recomendadísimos los muchachos de LinkPY."
+                    </p>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7dh9pPNwvPSQFY4tiCGFA-MB1cy5LaiFnWvKXagAqLt1Mg4Mi0a9AWpDcjxTU2tpWNtE23jvEfFDnl-zvkNWL0q5HjcyjxJ_449n4v_BabYyzh1C_ZxO729eTfwAMZ10hbSmAYhzPY21gmsviHoUQqverlXE-qAe47LCO1Pe5c6bxEnt76QnujY3fgbOapOqYuVHSlU2DwLzYChoxfjBrvxAKTDZfIA3UjZwmu68yinX_fRprTKp45GzDSIRALpSsLaT_9PUnZrs9"/>
+<div>
+<p class="font-bold text-on-surface">Ricardo Mendoza</p>
+<p class="text-xs text-outline">Dueño de Parrilla 'El Terruño', Asunción</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 transition-colors shadow-sm">
+<div>
+<div class="flex gap-1 text-primary-container mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface-variant italic mb-8 leading-relaxed">
+                        "Implementamos el ERP para nuestras tres sucursales en el Este y la trazabilidad es total. Da gusto trabajar con gente seria que entiende el mercado local."
+                    </p>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ZpifhJxoh9isfbSdJ5JIXnzKw7cWNT3tylbrCJAvbV24qQ2uYWeRIaFEmfLlQPTbmMVvTjaShpKJsCmkgnfIlKMsjlp4MEe6KmM70CEEGJdAGJOwBWTDxgoOoxr0kqs-Z3e3OAOwai4ET6uVm8AFnLtTrGqOLMLdv0y9D6wyQHnUm0veP4KFfvkjKQ40gFMRaYJSj_6iXnWiFUBFTrsFx2JrHO-FyvPqySWVOiuoU89MqyLB1ipifrV6Q38qAhxFPR-gJ5ebZ5u7"/>
+<div>
+<p class="font-bold text-on-surface">Ing. Sofía Duarte</p>
+<p class="text-xs text-outline">Gerente Logística, CDE</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/30 transition-colors shadow-sm">
+<div>
+<div class="flex gap-1 text-primary-container mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface-variant italic mb-8 leading-relaxed">
+                        "Legalmente, el e-commerce vuela. La integración con Bancard fue súper rápida y el soporte técnico siempre está ahí cuando necesitás un ajuste."
+                    </p>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUxahJ06IvF8tWP1iIxDXDXXv7z_Y0pHrB3gYSC9G5-McdXfjecAHsX9ocSLcmHMi9zhdvd0Ya35Xv1C64JR50QbT9H_8sHOnKvBuD7gahHeLbUMBw0pq92UlomBQSXppQwsOGvwZtBnYxuOO1vdTa3Me5RhWx2lMVyAFHuIcnsP0MtkXZpXwp3NKDSTcN1MC9kb6A87PGeQj8xmZ0KdrlgsUVIxBov3l1njJ9tSSazjWNj6fHWEB86y-0_q11mZrui8GC89UIojHb"/>
+<div>
+<p class="font-bold text-on-surface">Marta Giménez</p>
+<p class="text-xs text-outline">Fundadora de 'Artesanías PY'</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Demo Section -->
+<section class="py-24 bg-surface overflow-hidden">
+<div class="max-w-7xl mx-auto px-8">
+<div class="bg-primary-container rounded-[2rem] p-8 md:p-16 relative overflow-hidden">
+<!-- Decorative element -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+<div>
+<h2 class="text-3xl md:text-5xl font-extrabold font-headline text-on-primary mb-6 leading-tight">
+                        Observa el futuro de tu empresa en acción.
+                    </h2>
+<p class="text-on-primary-container text-lg mb-8 leading-relaxed">
+                        Nuestra interfaz está diseñada para eliminar la curva de aprendizaje. Potencia la productividad de tu equipo desde el primer día.
+                    </p>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3 text-on-primary">
+<span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+                            Interfaz 100% adaptable (Mobile First)
+                        </li>
+<li class="flex items-center gap-3 text-on-primary">
+<span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+                            Soporte técnico local garantizado
+                        </li>
+<li class="flex items-center gap-3 text-on-primary">
+<span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+                            Actualizaciones mensuales constantes
+                        </li>
+</ul>
+<button class="bg-white text-primary px-8 py-4 rounded-xl font-bold hover:shadow-xl transition-all">
+                        Agendar Demostración en Vivo
+                    </button>
+</div>
+<div class="relative group">
+<div class="aspect-video bg-inverse-surface rounded-2xl shadow-2xl flex items-center justify-center overflow-hidden border-4 border-white/10">
+<img alt="Demo de software" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk-0daVp55U-NF7NSZbmHM9dE4xAIO7F-d6hqyi0xPTgv18G_SRbyFSj4wQ-oV874Uen7IKDowZL9bmzE6e0GDcZ7jJY2MnLj4Ug2BIpJJewhWb0S3fI4QVaGCppRP7cUZV4-ZtzHiMA3mvPM18YxRF2sgRlCkX34WtJG0s4EQOu84E6DTR013dOoUg6CqP2MkRuorlYVQpbJcfWOO3FU7Yq0E9MIbs_9GO7jtdYA_5EEBIF7Jh6kQB60qyCyUl1Prs0_HMeLT_Bwc"/>
+<button class="absolute inset-0 m-auto w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl scale-100 hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-slate-50 border-t border-slate-200">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-black text-slate-900 mb-6">LinkPY</div>
+<p class="font-inter text-sm text-slate-500 leading-relaxed">
+                Elevando el estándar tecnológico desde Paraguay hacia el mercado global. Innovación con sello guaraní.
+            </p>
+</div>
+<div>
+<h4 class="font-manrope font-bold text-slate-900 mb-6">Soluciones</h4>
+<ul class="space-y-4 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Sistemas ERP</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Gestión Gastronómica</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Apps Móviles</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Diseño UI/UX</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-manrope font-bold text-slate-900 mb-6">Empresa</h4>
+<ul class="space-y-4 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Privacidad</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Términos</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Soporte</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4 transition-opacity" href="#">Carreras</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-manrope font-bold text-slate-900 mb-6">Contacto</h4>
+<p class="font-inter text-sm text-slate-500 mb-2">Asunción, Paraguay</p>
+<p class="font-inter text-sm text-slate-500 mb-4">hola@linkpy.com.py</p>
+<div class="flex gap-4">
+<a class="text-slate-400 hover:text-blue-600 transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-slate-400 hover:text-blue-600 transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-slate-400 hover:text-blue-600 transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 py-6 border-t border-slate-200/60 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-inter text-sm text-slate-500">© 2024 LinkPY Software Factory. Elevando el estándar tecnológico desde Paraguay.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs font-bold text-slate-400">SISTEMAS OPERATIVOS</span>
+</div>
+</div>
+</footer>
+</body></html>
 
-  sections.forEach(s => sectionObserver.observe(s));
+<!-- LinkPY - Contacto -->
+<!DOCTYPE html>
 
-  // ✅ FIX AUDITORIA: Video com lazy load — iframe só carrega ao clicar
-  function loadVideo() {
-    const thumb = document.getElementById('video-thumb');
-    const container = document.getElementById('video-iframe-container');
-    // Substitua 'SEU_VIDEO_ID' pelo ID real do vídeo de demonstração
-    const videoId = 'SEU_VIDEO_ID';
-    if (videoId === 'SEU_VIDEO_ID') {
-      // Placeholder enquanto não há vídeo real
-      container.innerHTML = `
-        <div class="w-full h-full flex flex-col items-center justify-center bg-inverse-surface text-on-primary gap-3 p-8 text-center">
-          <span class="material-symbols-outlined text-4xl opacity-50">videocam_off</span>
-          <p class="text-sm font-semibold opacity-70">Vídeo de demo em breve</p>
-          <a href="https://wa.me/595976771714?text=Hola%2C%20quiero%20ver%20una%20demo%20en%20vivo" target="_blank" rel="noopener noreferrer"
-             class="mt-2 bg-white text-primary px-5 py-2.5 rounded-xl text-sm font-bold hover:shadow-lg transition-all">
-            Solicitar demo en vivo
-          </a>
-        </div>`;
-    } else {
-      container.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="Demo LinkPY"></iframe>`;
-    }
-    thumb.classList.add('hidden');
-    container.classList.remove('hidden');
-  }
-</script>
-</body>
-</html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#faf8ff",
+              "inverse-primary": "#b0c6ff",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#b0c6ff",
+              "inverse-surface": "#2e3038",
+              "on-secondary-fixed": "#00201f",
+              "outline-variant": "#c3c6d6",
+              "secondary-fixed-dim": "#2edcd7",
+              "on-primary": "#ffffff",
+              "primary": "#003f95",
+              "surface-container-high": "#e7e7f2",
+              "tertiary": "#831a21",
+              "surface-tint": "#215abd",
+              "inverse-on-surface": "#f0f0fb",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#d9e2ff",
+              "on-error": "#ffffff",
+              "surface": "#faf8ff",
+              "on-tertiary-container": "#ffc5c2",
+              "surface-container-low": "#f3f3fd",
+              "on-primary-container": "#c3d2ff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e1e2ec",
+              "on-surface": "#191b23",
+              "tertiary-fixed": "#ffdad8",
+              "on-tertiary-fixed": "#410006",
+              "tertiary-fixed-dim": "#ffb3b0",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#a43236",
+              "outline": "#737685",
+              "surface-container": "#ededf8",
+              "on-tertiary-fixed-variant": "#881d24",
+              "on-background": "#191b23",
+              "secondary-container": "#5af9f3",
+              "on-primary-fixed-variant": "#00429b",
+              "on-primary-fixed": "#001945",
+              "on-secondary-container": "#00706e",
+              "on-surface-variant": "#434654",
+              "surface-variant": "#e1e2ec",
+              "secondary-fixed": "#5af9f3",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9d9e4",
+              "secondary": "#006a67",
+              "primary-container": "#1c56b9",
+              "surface-bright": "#faf8ff",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#00504e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #003f95 0%, #1c56b9 100%);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased">
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl shadow-sm">
+<div class="flex items-center justify-between px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-900">LinkPY</div>
+<div class="hidden md:flex items-center space-x-8 font-manrope font-semibold tracking-tight">
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Inicio</a>
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Servicios</a>
+<a class="text-slate-600 hover:text-blue-600 transition-all duration-300" href="#">Portafolio</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-700 transition-all duration-300" href="#">Contacto</a>
+</div>
+<button class="bg-primary-container text-white px-6 py-2.5 rounded-lg font-manrope font-bold hover:opacity-90 transition-all active:scale-95">
+                Solicitar Demo
+            </button>
+</div>
+</nav>
+<main class="pt-24">
+<section class="max-w-7xl mx-auto px-8 py-20 lg:py-32">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+<div class="space-y-10">
+<div>
+<span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase bg-primary/10 text-primary rounded-full font-label">
+                            Contacto Directo
+                        </span>
+<h1 class="font-headline text-5xl lg:text-6xl font-extrabold tracking-tighter text-on-surface mb-6 leading-tight">
+                            Impulsemos juntos su <span class="text-primary">evolución digital.</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-xl leading-relaxed">
+                            Desde el corazón de Paraguay, desarrollamos soluciones de software que trascienden fronteras. Cuéntenos su visión y nuestro equipo de ingeniería la hará realidad.
+                        </p>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<div class="group flex items-center p-6 bg-surface-container-low rounded-xl transition-all hover:bg-surface-container hover:shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary text-on-primary rounded-lg mr-6">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider mb-1">WhatsApp Business</p>
+<p class="text-xl font-headline font-bold text-on-surface">+595 981 000 000</p>
+</div>
+</div>
+<div class="group flex items-center p-6 bg-surface-container-low rounded-xl transition-all hover:bg-surface-container hover:shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary text-on-primary rounded-lg mr-6">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider mb-1">Correo Electrónico</p>
+<p class="text-xl font-headline font-bold text-on-surface">contacto@linkpy.com.py</p>
+</div>
+</div>
+<div class="group flex items-center p-6 bg-surface-container-low rounded-xl transition-all hover:bg-surface-container hover:shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary text-on-primary rounded-lg mr-6">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider mb-1">Casa Matriz</p>
+<p class="text-xl font-headline font-bold text-on-surface">Asunción, Paraguay</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 lg:p-12 rounded-2xl shadow-xl shadow-primary/5 border border-outline-variant/10">
+<h3 class="font-headline text-2xl font-bold mb-8 text-on-surface">Inicie su consulta hoy</h3>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant font-label">Nombre Completo</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary transition-all font-body text-on-surface" placeholder="Ej: Juan Pérez" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant font-label">Empresa</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary transition-all font-body text-on-surface" placeholder="Nombre de su organización" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant font-label">RUC</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary transition-all font-body text-on-surface" placeholder="Ej: 80012345-6" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant font-label">Tipo de Negocio</label>
+<select class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary transition-all font-body text-on-surface appearance-none">
+<option>Retail / Ecommerce</option>
+<option>Logística</option>
+<option>Fintech / Banca</option>
+<option>Agroindustria</option>
+<option>Otro</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant font-label">Mensaje o Requerimiento</label>
+<textarea class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary transition-all font-body text-on-surface" placeholder="Describa brevemente su proyecto..." rows="4"></textarea>
+</div>
+<button class="w-full hero-gradient text-on-primary py-4 rounded-xl font-headline font-bold text-lg hover:shadow-lg hover:scale-[1.01] transition-all active:scale-95" type="submit">
+                            Enviar Solicitud de Consultoría
+                        </button>
+<p class="text-center text-xs text-outline font-label">
+                            Al enviar, acepta nuestra política de privacidad y tratamiento de datos.
+                        </p>
+</form>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="font-headline text-3xl lg:text-4xl font-bold text-on-surface mb-4">Presencia en todo el territorio</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Nuestra infraestructura tecnológica permite dar soporte a empresas desde Asunción hasta las fronteras más remotas del país.</p>
+</div>
+<div class="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+<div class="absolute inset-0 bg-slate-200">
+<img class="w-full h-full object-cover grayscale opacity-50" data-alt="Stylized map of Paraguay with technical data overlays and glowing nodes representing regional connectivity and operations hubs" data-location="Paraguay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7AvXnhRthCHy1wRjQWrX4xGLMpbRTis43NRexgS76qPCmidyGMc7irr_i9fMDfE2-l-4ZNre9SNcHJNMwzXUsN3RUIC4T-c_BV4p4Dbacq09DM-npQxHsh-rVm9KhS3dtb50t69LD9kepsb24_XKTEmGuTkOf-t2jj8_IFl3351BIAN6R4Hju3MwItziCOLmDGe-WuYQbx6jjDgby5ezSazORgBtz0SH4ZhGtY8cQI7xAPIq6PJgyxucwHgk4hgXGfxeZduFYFnUN"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent pointer-events-none"></div>
+<div class="absolute top-10 left-10 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white max-w-xs">
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+<span class="text-sm font-bold text-on-surface uppercase tracking-tighter">Nodos Activos</span>
+</div>
+<ul class="space-y-3">
+<li class="flex justify-between text-sm">
+<span class="font-semibold">Asunción &amp; Central</span>
+<span class="text-primary font-bold">Principal</span>
+</li>
+<li class="flex justify-between text-sm">
+<span class="font-semibold">Ciudad del Este</span>
+<span class="text-primary font-bold">Soporte</span>
+</li>
+<li class="flex justify-between text-sm">
+<span class="font-semibold">Encarnación</span>
+<span class="text-primary font-bold">Desarrollo</span>
+</li>
+</ul>
+</div>
+<div class="absolute bottom-10 right-10 flex space-x-4">
+<div class="bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-white flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="cloud_done">cloud_done</span>
+<span class="text-sm font-bold">99.9% Uptime Regional</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-slate-50 border-t border-slate-200">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-black text-slate-900 mb-4">LinkPY</div>
+<p class="font-inter text-sm text-slate-500 leading-relaxed">
+                    Elevando el estándar tecnológico desde Paraguay hacia el mundo con ingeniería de software de clase mundial.
+                </p>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface mb-6">Soluciones</h4>
+<ul class="space-y-3 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">ERP Custom</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Apps Móviles</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Cloud Computing</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Consultoría IT</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface mb-6">Compañía</h4>
+<ul class="space-y-3 font-inter text-sm text-slate-500">
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Soporte</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Carreras</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Términos</a></li>
+<li><a class="hover:underline decoration-blue-500 underline-offset-4" href="#">Privacidad</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface mb-6">Redes</h4>
+<div class="flex space-x-4">
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="share">share</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="public">public</span>
+</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 py-6 border-t border-slate-200">
+<p class="font-inter text-xs text-slate-500 text-center">
+                © 2024 LinkPY Software Factory. Elevando el estándar tecnológico desde Paraguay.
+            </p>
+</div>
+</footer>
+</body></html>
