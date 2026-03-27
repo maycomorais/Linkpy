@@ -1,37 +1,178 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gestão de Sistemas</title>
-    <link rel="stylesheet" href="admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — LinkPY</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='16' font-weight='800' font-family='sans-serif' fill='white'>LP</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <div id="login-container">
-        <form id="form-login">
-            <h2>Acesso LinkPy</h2>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+
+  <!-- ══════════════ LOGIN ══════════════ -->
+  <div id="login-container" role="main" aria-label="Tela de login">
+    <form id="form-login" novalidate>
+      <h2>LinkPY</h2>
+      <p class="subtitle">Painel Administrativo</p>
+
+      <div id="login-error" class="login-error" role="alert" aria-live="assertive">
+        <span>⚠</span>
+        <span id="login-error-msg">Credenciais inválidas.</span>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="email" placeholder="admin@linkpy.com.py" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required />
+      </div>
+
+      <button type="submit" id="btn-submit-login">Entrar</button>
+    </form>
+  </div>
+
+  <!-- ══════════════ ADMIN ══════════════ -->
+  <div id="admin-wrapper" class="hidden">
+
+    <header>
+      <h1>⚡ LinkPY — Painel de Controle</h1>
+      <nav>
+        <button id="btn-novo-cliente" class="btn-primary" title="Cadastrar novo cliente">
+          + Novo Cliente
+        </button>
+        <button id="btn-financeiro" class="btn-secondary" title="Módulo financeiro">
+          💰 Financeiro
+        </button>
+        <button id="btn-logout" class="btn-secondary" title="Sair do painel">
+          Sair
+        </button>
+      </nav>
+    </header>
+
+    <!-- Toolbar: busca + filtros -->
+    <div id="toolbar" role="search">
+      <input
+        type="search"
+        id="search-input"
+        placeholder="Buscar cliente..."
+        aria-label="Buscar clientes"
+        autocomplete="off"
+      />
+      <div class="toolbar-right">
+        <span id="contador-clientes" style="font-size:.8rem;color:#64748b;"></span>
+      </div>
     </div>
 
-    <div id="admin-wrapper" class="hidden">
-        <header>
-            <h1>Painel de Controle - Software House</h1>
-            <nav>
-                <button id="btn-novo-cliente">Novo Cliente</button>
-                <button id="btn-financeiro">Financeiro</button>
-                <button id="btn-logout" onclick="logout()">Sair</button>
-            </nav>
-        </header>
+    <main>
+      <div id="grid-clientes" class="grid-container" role="list" aria-label="Lista de clientes"></div>
+      <div id="paginacao" aria-label="Paginação"></div>
+    </main>
 
-        <main>
-            <div id="grid-clientes" class="grid-container"></div>
-        </main>
+  </div>
+
+  <!-- ══════════════ MODAL NOVO/EDITAR CLIENTE ══════════════ -->
+  <div
+    id="modal-cliente"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-titulo"
+  >
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-titulo">Novo Cliente</h2>
+        <button class="btn-icon" id="modal-fechar" aria-label="Fechar modal" title="Fechar">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="modal-cliente-id" />
+
+        <!-- Dados gerais -->
+        <p class="modal-section-title">Dados do Cliente</p>
+
+        <div class="input-group">
+          <label for="campo-empresa">Nome da Empresa *</label>
+          <input type="text" id="campo-empresa" placeholder="Ex: Restaurante Sushi Top" required />
+          <span class="msg-error hidden" id="erro-empresa">Obrigatório</span>
+        </div>
+
+        <div class="input-group">
+          <label for="campo-responsavel">Nome do Responsável</label>
+          <input type="text" id="campo-responsavel" placeholder="Ex: João da Silva" />
+        </div>
+
+        <div class="input-group">
+          <label for="campo-telefone">Telefone (WhatsApp) *</label>
+          <input type="text" id="campo-telefone" placeholder="595981234567 (sem + ou espaços)" />
+          <span class="msg-error hidden" id="erro-telefone">Obrigatório</span>
+        </div>
+
+        <div class="input-group">
+          <label for="campo-vencimento">Vencimento da Mensalidade</label>
+          <input type="date" id="campo-vencimento" />
+        </div>
+
+        <!-- Credenciais Supabase -->
+        <p class="modal-section-title" style="margin-top:.5rem">Credenciais do Sistema do Cliente</p>
+
+        <div class="info-banner">
+          🔒 As chaves ficam armazenadas <strong>somente aqui</strong>, no seu banco admin. O site do cliente usa apenas o <strong>token de acesso</strong> para chamar o proxy seguro.
+        </div>
+
+        <div class="cred-box">
+          <div class="cred-field">
+            <label for="campo-supa-url">URL do Supabase do Cliente</label>
+            <input type="url" id="campo-supa-url" placeholder="https://xxxxxxxxxxx.supabase.co" />
+          </div>
+          <div class="cred-field">
+            <label for="campo-supa-key">Anon Key do Cliente</label>
+            <div class="cred-row">
+              <input type="password" id="campo-supa-key" placeholder="eyJhbGciOiJIUzI1NiIs..." />
+              <button type="button" class="btn-copy" id="btn-toggle-key" title="Mostrar/ocultar chave">👁</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Token + URL do Proxy (só aparece ao editar um cliente existente) -->
+        <div id="proxy-section" class="hidden">
+          <p class="modal-section-title" style="margin-top:.25rem">Token &amp; URL do Proxy</p>
+          <div class="cred-box proxy-box">
+            <div class="cred-field">
+              <label>Client Token (público)</label>
+              <div class="cred-row">
+                <div class="token-uuid" id="display-token">—</div>
+                <button type="button" class="btn-copy" id="btn-copy-token">Copiar</button>
+              </div>
+            </div>
+            <div class="cred-field">
+              <label>URL do Proxy para o site do cliente</label>
+              <div class="proxy-url-display" id="display-proxy-url">—</div>
+              <button type="button" class="btn-copy" id="btn-copy-proxy" style="align-self:flex-start;margin-top:.3rem">📋 Copiar URL</button>
+            </div>
+            <p style="font-size:.75rem;color:#1e40af;line-height:1.5">
+              Cole essa URL no arquivo <code>config.js</code> do site do cliente. Ela nunca expõe as chaves Supabase.
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /modal-body -->
+
+      <div class="modal-footer">
+        <button id="btn-modal-cancelar" class="btn-ghost">Cancelar</button>
+        <button id="btn-modal-excluir" class="btn-danger hidden">🗑 Excluir</button>
+        <button id="btn-modal-salvar" style="background:var(--primary);color:white;padding:.55rem 1.25rem;">
+          Salvar
+        </button>
+      </div>
     </div>
+  </div>
 
-    <script src="admin.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>

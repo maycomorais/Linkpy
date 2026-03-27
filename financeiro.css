@@ -1,0 +1,372 @@
+/* ============================================================
+   LinkPY Financeiro — financeiro.css
+   Complementa admin.css (variáveis já definidas lá)
+   ============================================================ */
+
+/* ── Layout ── */
+.fin-main {
+  padding: 1.5rem 2rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-left  { display: flex; align-items: center; gap: .75rem; }
+.header-right { display: flex; align-items: center; gap: .5rem; }
+
+.btn-back {
+  background: rgba(255,255,255,.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-sm);
+  padding: .35rem .75rem;
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transition);
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.btn-back:hover { background: rgba(255,255,255,.28); }
+
+/* ── Abas ── */
+.tabs-bar {
+  display: flex;
+  gap: 0;
+  background: white;
+  border-bottom: 2px solid var(--border);
+  padding: 0 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs-bar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: .9rem 1.25rem;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+  margin-bottom: -2px;
+  white-space: nowrap;
+}
+.tab-btn:hover  { color: var(--text); background: none; }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-btn:active { transform: none; }
+
+/* ── KPI Cards ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border);
+  border-top: 4px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.kpi-receber  { border-top-color: var(--info); }
+.kpi-recebido { border-top-color: var(--success); }
+.kpi-atrasado { border-top-color: var(--danger); }
+.kpi-despesas { border-top-color: var(--warning); }
+
+.kpi-label {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: .4rem;
+}
+
+.kpi-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.kpi-sub {
+  font-size: .75rem;
+  color: var(--text-hint);
+  margin-top: .3rem;
+}
+
+/* ── Dashboard grid ── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1rem;
+}
+
+.chart-card,
+.recentes-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.card-titulo {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 1rem 1.25rem .5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-wrap {
+  padding: 1rem 1.25rem 1.25rem;
+  height: 280px;
+  position: relative;
+}
+
+/* ── Lista de próximos vencimentos ── */
+.lista-recentes {
+  overflow-y: auto;
+  max-height: 310px;
+}
+
+.recente-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.recente-item:last-child { border-bottom: none; }
+.recente-item:hover { background: var(--bg); }
+
+.recente-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-pendente { background: var(--info); }
+.dot-vencido  { background: var(--danger); }
+.dot-pago     { background: var(--success); }
+
+.recente-body { flex: 1; min-width: 0; }
+.recente-nome {
+  font-size: .8125rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recente-data { font-size: .75rem; color: var(--text-hint); }
+.recente-valor { font-size: .875rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+/* ── Toolbar financeiro ── */
+.toolbar-fin {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.search-fin {
+  flex: 1;
+  min-width: 180px;
+  max-width: 280px;
+  padding: .5rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: .8125rem;
+  font-family: inherit;
+  color: var(--text);
+  background: white;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.search-fin:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+.select-fin {
+  padding: .5rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: .8125rem;
+  font-family: inherit;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+}
+.select-fin:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+.btn-fin-primary {
+  background: var(--primary);
+  color: white;
+  padding: .5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: .8125rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.btn-fin-primary:hover { background: var(--primary-hover); }
+
+/* ── Tabelas ── */
+.tabela-container {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.fin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .8125rem;
+}
+
+.fin-table thead tr {
+  background: var(--bg);
+  border-bottom: 2px solid var(--border);
+}
+
+.fin-table th {
+  padding: .75rem 1rem;
+  text-align: left;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+.fin-table td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.fin-table tbody tr:last-child td { border-bottom: none; }
+
+.fin-table tbody tr:hover { background: #f8fafc; cursor: pointer; }
+
+.col-valor { font-weight: 700; white-space: nowrap; }
+.col-verde  { color: var(--success); }
+.col-vermelho { color: var(--danger); }
+.col-azul   { color: var(--info); }
+
+/* ── Badges de status nas tabelas ── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .6rem;
+  border-radius: 99px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.status-pendente  { background: #eff6ff; color: #1d4ed8; }
+.status-pago      { background: var(--success-light); color: #15803d; }
+.status-vencido   { background: var(--danger-light); color: #b91c1c; }
+.status-cancelado { background: #f1f5f9; color: #64748b; }
+.status-rascunho  { background: #f1f5f9; color: #64748b; }
+.status-enviada   { background: #fff7ed; color: #c2410c; }
+.status-aprovada  { background: var(--success-light); color: #15803d; }
+.status-recusada  { background: var(--danger-light); color: #b91c1c; }
+
+/* Tipo badge */
+.tipo-badge {
+  display: inline-flex;
+  padding: .15rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 600;
+  background: var(--bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Vencimento com alerta ── */
+.data-vencida  { color: var(--danger); font-weight: 700; }
+.data-proxima  { color: var(--warning); font-weight: 600; }
+
+/* ── Empty state nas tabelas ── */
+.tabela-vazia {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--text-muted);
+}
+.tabela-vazia .icone { font-size: 2.5rem; opacity: .35; margin-bottom: .75rem; }
+.tabela-vazia p { font-size: .875rem; }
+
+/* ── Modal extras ── */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .85rem;
+}
+
+.btn-save {
+  background: var(--primary);
+  color: white;
+  padding: .55rem 1.35rem;
+  font-size: .875rem;
+  border-radius: var(--radius-sm);
+}
+.btn-save:hover { background: var(--primary-hover); }
+.btn-save:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+/* ── Responsivo ── */
+@media (max-width: 1100px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .recentes-card .lista-recentes { max-height: 220px; }
+}
+
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .fin-main { padding: 1rem 1rem 3rem; }
+  .tabs-bar  { padding: 0 1rem; }
+  .kpi-grid  { grid-template-columns: 1fr 1fr; gap: .65rem; }
+  .kpi-value { font-size: 1.3rem; }
+  .toolbar-fin { flex-direction: column; align-items: stretch; }
+  .search-fin  { max-width: 100%; }
+  .btn-fin-primary { margin-left: 0; }
+  .form-row-2  { grid-template-columns: 1fr; }
+  .fin-table th:nth-child(n+4),
+  .fin-table td:nth-child(n+4) { display: none; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid  { grid-template-columns: 1fr; }
+  .kpi-card  { padding: 1rem; }
+  .header-left h1 { font-size: .85rem; }
+}
