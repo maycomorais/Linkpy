@@ -1,126 +1,148 @@
 /* ============================================================
    LinkPY — index.css
-   ✅ Fix [Baixo]: blocos :root, body e header duplicados removidos.
-   Os valores foram mesclados mantendo as propriedades mais completas.
+   Estilos personalizados que complementan Tailwind CSS.
    ============================================================ */
 
-:root {
-  --primary: #0052cc;
-  --dark:    #091e42;
-  --light:   #f4f5f7;
-  --accent:  #00c7e4;
-  --gray:    #f4f5f7;
+/* ── Scroll suave global ── */
+html {
+  scroll-behavior: smooth;
 }
 
+/* ── Material Symbols ── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+/* ── Tipografía base ── */
 body {
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  color: var(--dark);
-  background-color: #fff;
-  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #faf8ff;
+  color: #191b23;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 10%;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', sans-serif;
 }
 
-.logo        { font-size: 1.8rem; font-weight: bold; color: var(--dark); }
-.logo span   { color: var(--primary); }
-
-.hero {
-  padding: 100px 10%;
-  text-align: center;
-  background: linear-gradient(135deg, var(--light) 0%, #e3e9ff 100%);
+/* ── Gradiente hero (botones y secciones azules) ── */
+.hero-gradient {
+  background: linear-gradient(135deg, #003f95 0%, #1c56b9 100%);
 }
 
-.hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-
-.grid-servicios {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 4rem 10%;
-}
-
-article {
-  padding: 2rem;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease;
-}
-
-article:hover { transform: translateY(-10px); }
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  padding: 0.8rem 2rem;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-section { padding: 4rem 10%; text-align: center; }
-
-/* ── Portfolio ── */
-.grid-portfolio {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.card-cliente {
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  border: 1px solid var(--gray);
-  padding: 1rem;
-  border-radius: 12px;
-}
-
-.card-cliente:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.card-cliente img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
-/* ── Vídeo Responsivo ── */
-.video-wrapper {
+/* ── Nav activa ── */
+.nav-link {
+  color: #475569;
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  max-width: 850px;
-  margin: 0 auto;
+  padding-bottom: 2px;
 }
 
-.video-wrapper iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border-radius: 15px;
+.nav-link:hover {
+  color: #2563eb;
 }
 
-/* ── Provas Sociais ── */
-.grid-pruebas {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+.nav-link.active {
+  color: #1d4ed8;
+  font-weight: 700;
+  border-bottom: 2px solid #1d4ed8;
 }
 
-.prueba-social img {
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+/* ── Navbar compacta en scroll ── */
+#navbar.scrolled {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Barras de estadísticas animadas ── */
+.stat-bar {
+  transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Counters ── */
+.counter,
+.counter-k {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Details / FAQ ── */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 63, 149, 0.08);
+}
+
+/* ── Transición suave para detalles ── */
+details > p {
+  overflow: hidden;
+}
+
+/* ── Selection color ── */
+::selection {
+  background-color: #d9e2ff;
+  color: #001945;
+}
+
+/* ── Focus ring accesible ── */
+:focus-visible {
+  outline: 2px solid #003f95;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Form inputs: elimina borde azul por defecto del browser ── */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #003f95;
+  border-radius: 0.5rem;
+}
+
+/* ── Animación de entrada para secciones (usada por IntersectionObserver) ── */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Delay helpers para stagger ── */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+/* ── Pulse animación para el punto verde (nodo activo) ── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+
+.animate-pulse {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ── Hover lift para cards ── */
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 63, 149, 0.12);
+}
+
+/* ── Responsivo: mobile menu ── */
+@media (max-width: 767px) {
+  #mobile-menu.open {
+    display: flex;
+  }
 }

@@ -1,37 +1,22 @@
 /**
- * LinkPY Admin Panel — admin.js v2.1.0
+ * LinkPY Admin Panel — admin.js v2.2.0
  *
- * Correções desta versão (auditoria 2025):
- * ✅ [Crítico]  supabase_anon_key removida do select de fetchClientes
- *               → chave agora é carregada apenas ao abrir o modal de edição
- * ✅ [Crítico]  Rate limiting persistido em sessionStorage via auth.js
- *               (não é mais resetado com F5)
- * ✅ [Alto]     Token removido da query string de gerarProxyUrl
- *               → URL base do proxy; token vai no body do POST
- * ✅ [Alto]     btn-financeiro redireciona para financeiro.html (era alert placeholder)
- * ✅ [Médio]    mostrarErroGrid usa esc() para sanitizar mensagens de erro (XSS)
- * ✅ [Médio]    auth duplicado removido — agora vive em auth.js
- * ✅ [Baixo]    alert() de salvar/excluir substituído por toast visual
+ * Novidades v2.2.0:
+ *  ✅ Painel de Leads: exibe mensagens do formulário de contato do site
+ *  ✅ Badge de não lidos no botão "Leads" atualizado em tempo real
+ *  ✅ Filtro todos / não lidos / lidos
+ *  ✅ Marcar como lido ao abrir + "Marcar todos" em lote
+ *  ✅ Atalho WhatsApp para responder ao lead
  */
 
 /* ─────────────────────────────────────────
    CONFIG
-   Nota: a ADMIN_SUPABASE_KEY (anon key) precisa estar aqui para que
-   o Supabase Auth e o RLS funcionem no browser admin. Esta é uma
-   limitação arquitetural do painel client-side. Certifique-se de que:
-   1. As políticas RLS do seu projeto admin estão corretas (somente
-      usuários autenticados conseguem ler a tabela `clientes`).
-   2. A anon key NÃO é a service_role key.
-   3. A chave seja rotacionada se tiver sido exposta em commits.
 ───────────────────────────────────────── */
-const APP_VERSION         = '2.1.0';
+const APP_VERSION         = '2.2.0';
 const ADMIN_SUPABASE_URL  = 'https://cwauzlddxfalcjcryegb.supabase.co';
 const ADMIN_SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3YXV6bGRkeGZhbGNqY3J5ZWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MzUzMzYsImV4cCI6MjA4ODMxMTMzNn0.2X5A-GqrE9iDtq36G8xbcRE3Ve4KuJFmdQildPr1UeE';
-
-// URL BASE do proxy — token vai no corpo do POST, nunca na URL
-const PROXY_BASE_URL = `${ADMIN_SUPABASE_URL}/functions/v1/client-proxy`;
-
-const PAGE_SIZE = 12;
+const PROXY_BASE_URL      = `${ADMIN_SUPABASE_URL}/functions/v1/client-proxy`;
+const PAGE_SIZE           = 12;
 
 /* ─────────────────────────────────────────
    LOGGER
@@ -51,9 +36,14 @@ const db = window.supabase.createClient(ADMIN_SUPABASE_URL, ADMIN_SUPABASE_KEY);
 /* ─────────────────────────────────────────
    ESTADO LOCAL
 ───────────────────────────────────────── */
-let todosClientes = [];
-let paginaAtual   = 1;
-let termoBusca    = '';
+let todosClientes  = [];
+let paginaAtual    = 1;
+let termoBusca     = '';
+
+// Leads
+let todosLeads         = [];
+let filtroLeadAtual    = 'todos';
+let leadAbertoAtual    = null; // { id, nome, ... } para o modal de detalhe
 
 /* ─────────────────────────────────────────
    ELEMENTOS DO DOM
@@ -70,8 +60,12 @@ const el = {
   searchInput:    document.getElementById('search-input'),
   contador:       document.getElementById('contador-clientes'),
   btnNovoCliente: document.getElementById('btn-novo-cliente'),
+  btnLeads:       document.getElementById('btn-leads'),
+  leadsBadge:     document.getElementById('leads-badge'),
   btnFinanceiro:  document.getElementById('btn-financeiro'),
   btnLogout:      document.getElementById('btn-logout'),
+
+  // Modal Cliente
   modalOverlay:   document.getElementById('modal-cliente'),
   modalTitulo:    document.getElementById('modal-titulo'),
   modalFechar:    document.getElementById('modal-fechar'),
@@ -91,30 +85,49 @@ const el = {
   displayProxy:   document.getElementById('display-proxy-url'),
   btnCopyToken:   document.getElementById('btn-copy-token'),
   btnCopyProxy:   document.getElementById('btn-copy-proxy'),
+
+  // Drawer de Leads
+  leadsOverlay:       document.getElementById('leads-overlay'),
+  leadsLista:         document.getElementById('leads-lista'),
+  leadsTotalBadge:    document.getElementById('leads-total-badge'),
+  btnLeadsFechar:     document.getElementById('btn-leads-fechar'),
+  btnLeadsMarcarTodos:document.getElementById('btn-leads-marcar-todos'),
+
+  // Modal Lead detalhe
+  modalLead:          document.getElementById('modal-lead'),
+  leadModalTitulo:    document.getElementById('lead-modal-titulo'),
+  leadModalBody:      document.getElementById('lead-modal-body'),
+  btnLeadWpp:         document.getElementById('btn-lead-wpp'),
+  btnLeadModalFechar: document.getElementById('btn-lead-modal-fechar'),
+  btnLeadModalFechar2:document.getElementById('btn-lead-modal-fechar2'),
 };
 
 /* ─────────────────────────────────────────
    UTILITÁRIOS
 ───────────────────────────────────────── */
-
-/** Escapa caracteres HTML para uso seguro em innerHTML */
 function esc(str) {
   return String(str ?? '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   }[c]));
 }
 
-/** Converte valor para string sem escapar (para textContent) */
 const texto = (val) => String(val ?? '');
 
 const diasParaVencer = (dataVenc) => {
   if (!dataVenc) return null;
-  const diff = new Date(dataVenc) - new Date();
-  return Math.ceil(diff / 86_400_000);
+  return Math.ceil((new Date(dataVenc) - new Date()) / 86_400_000);
 };
 
 const formatarData = (iso) =>
   iso ? new Date(iso).toLocaleDateString('pt-BR') : 'Não definido';
+
+const formatarDataHora = (iso) =>
+  iso
+    ? new Date(iso).toLocaleString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      })
+    : '—';
 
 async function copiarParaClipboard(txt, btnEl) {
   try {
@@ -128,17 +141,10 @@ async function copiarParaClipboard(txt, btnEl) {
   }
 }
 
-/**
- * Gera a URL base do proxy para exibição — o token NÃO vai na URL.
- * O site do cliente deve fazer POST para esta URL com { token, table, method, ... }
- * no corpo da requisição.
- * ✅ Fix: token removido da query string (evita exposição em logs/Referer/histórico)
- */
 const gerarProxyUrl = () => PROXY_BASE_URL;
 
 /* ─────────────────────────────────────────
-   TOAST / FEEDBACK VISUAL
-   Substitui alert() por notificações não-bloqueantes
+   TOAST
 ───────────────────────────────────────── */
 function mostrarToast(msg, tipo = 'error') {
   const cores = {
@@ -147,12 +153,11 @@ function mostrarToast(msg, tipo = 'error') {
     info:    { bg: '#eff6ff', cor: '#1d4ed8', borda: '#bfdbfe' },
   };
   const c = cores[tipo] ?? cores.error;
-
   const toast = document.createElement('div');
   toast.setAttribute('role', 'alert');
   toast.style.cssText = [
     'position:fixed', 'bottom:1.5rem', 'right:1.5rem', 'z-index:9999',
-    `padding:.8rem 1.2rem`, 'border-radius:8px', 'font-size:.875rem',
+    'padding:.8rem 1.2rem', 'border-radius:8px', 'font-size:.875rem',
     'font-weight:600', 'box-shadow:0 4px 16px rgba(0,0,0,.12)',
     'max-width:360px', 'line-height:1.4',
     `background:${c.bg}`, `color:${c.cor}`, `border:1px solid ${c.borda}`,
@@ -160,11 +165,9 @@ function mostrarToast(msg, tipo = 'error') {
     'animation:lp-slideIn .2s ease',
   ].join(';');
 
-  // Ícone
   const icone = { error: '⚠', success: '✓', info: 'ℹ' }[tipo] ?? '⚠';
   toast.textContent = `${icone} ${msg}`;
 
-  // Adicionar keyframes se ainda não existir
   if (!document.getElementById('lp-toast-styles')) {
     const style = document.createElement('style');
     style.id = 'lp-toast-styles';
@@ -182,8 +185,6 @@ function mostrarToast(msg, tipo = 'error') {
 
 /* ─────────────────────────────────────────
    CLIENTES — BUSCA
-   ✅ Fix: supabase_anon_key REMOVIDA do select
-   (chave só é buscada ao abrir modal de edição de 1 cliente)
 ───────────────────────────────────────── */
 async function fetchClientes() {
   mostrarSkeletons();
@@ -264,12 +265,10 @@ function criarCard(c) {
   const info = document.createElement('div');
   info.className = 'card-info';
 
-  const infoRows = [
+  [
     ['Responsável', c.responsavel_nome || 'N/A'],
     ['Vencimento',  formatarData(c.vencimento_mensalidade)],
-  ];
-
-  infoRows.forEach(([label, val]) => {
+  ].forEach(([label, val]) => {
     const row    = document.createElement('div');
     row.className = 'card-info-row';
     const strong = document.createElement('strong');
@@ -304,7 +303,6 @@ function criarCard(c) {
   const btnEditar = document.createElement('button');
   btnEditar.className = 'btn-ghost';
   btnEditar.textContent = '✏ Editar';
-  btnEditar.setAttribute('title', 'Editar cliente e credenciais');
   btnEditar.addEventListener('click', () => abrirModalEditar(c));
 
   btnGroup.appendChild(btnWpp);
@@ -317,20 +315,13 @@ function criarCard(c) {
 }
 
 function criarEstadoVazio(busca) {
-  const div  = document.createElement('div');
+  const div = document.createElement('div');
   div.className = 'estado-vazio';
-  const icone = document.createElement('div');
-  icone.className = 'icone';
-  icone.textContent = busca ? '🔍' : '📋';
-  const h3 = document.createElement('h3');
-  h3.textContent = busca ? 'Nenhum resultado encontrado' : 'Nenhum cliente cadastrado';
-  const p = document.createElement('p');
-  p.textContent = busca
-    ? `Nenhum cliente corresponde a "${busca}".`
-    : 'Cadastre seu primeiro cliente clicando em "+ Novo Cliente".';
-  div.appendChild(icone);
-  div.appendChild(h3);
-  div.appendChild(p);
+  div.innerHTML = `
+    <div class="icone">${busca ? '🔍' : '📋'}</div>
+    <h3>${busca ? 'Nenhum resultado encontrado' : 'Nenhum cliente cadastrado'}</h3>
+    <p>${busca ? `Nenhum cliente corresponde a "${esc(busca)}".` : 'Cadastre seu primeiro cliente clicando em "+ Novo Cliente".'}</p>
+  `;
   if (!busca) {
     const btn = document.createElement('button');
     btn.style.cssText = 'background:var(--primary);color:white;padding:.6rem 1.25rem;';
@@ -351,15 +342,10 @@ function mostrarSkeletons() {
   el.paginacao.innerHTML = '';
 }
 
-/**
- * ✅ Fix XSS: msg é passada por esc() antes de ir para innerHTML.
- * Anteriormente usava texto() que apenas faz String(), sem escapar HTML.
- */
 function mostrarErroGrid(msg) {
   el.grid.innerHTML = '';
   const div = document.createElement('div');
   div.className = 'estado-vazio';
-  // esc() sanitiza a mensagem de erro que pode vir do Supabase
   div.innerHTML = `
     <div class="icone">⚠️</div>
     <h3>Erro ao carregar clientes</h3>
@@ -413,11 +399,11 @@ function enviarWpp(tel, empresa) {
 }
 
 /* ─────────────────────────────────────────
-   MODAL — ABRIR / FECHAR
+   MODAL CLIENTE — ABRIR / FECHAR / SALVAR
 ───────────────────────────────────────── */
 function abrirModalNovo() {
   el.modalTitulo.textContent = 'Novo Cliente';
-  el.campoId.value      = '';
+  el.campoId.value = '';
   el.campoEmpresa.value = '';
   el.campoResp.value    = '';
   el.campoTel.value     = '';
@@ -431,11 +417,6 @@ function abrirModalNovo() {
   abrirModal();
 }
 
-/**
- * ✅ Fix: supabase_anon_key é buscada separadamente para 1 cliente,
- * somente quando o modal de edição é aberto.
- * Antes, a chave de TODOS os clientes trafegava para o browser na carga inicial.
- */
 async function abrirModalEditar(c) {
   el.modalTitulo.textContent = `Editar — ${c.nome_empresa}`;
   el.campoId.value      = String(c.id);
@@ -446,12 +427,11 @@ async function abrirModalEditar(c) {
     ? new Date(c.vencimento_mensalidade).toISOString().split('T')[0]
     : '';
   el.campoSupaUrl.value = texto(c.supabase_url);
-  el.campoSupaKey.value = '';      // limpa enquanto carrega
+  el.campoSupaKey.value = '';
   el.campoSupaKey.type  = 'password';
   el.btnToggleKey.textContent = '👁';
   el.btnExcluir.classList.remove('hidden');
 
-  // Buscar apenas a chave deste cliente (somente quando necessário)
   const { data: credData } = await db
     .from('clientes')
     .select('supabase_anon_key')
@@ -461,11 +441,9 @@ async function abrirModalEditar(c) {
     el.campoSupaKey.value = texto(credData.supabase_anon_key);
   }
 
-  // Proxy info — URL base sem token; token vai no body do POST
   if (c.client_token) {
     el.proxySection.classList.remove('hidden');
     el.displayToken.textContent = texto(c.client_token);
-    // ✅ Fix: gerarProxyUrl() agora retorna apenas a URL base
     el.displayProxy.textContent = gerarProxyUrl();
   } else {
     el.proxySection.classList.add('hidden');
@@ -485,10 +463,6 @@ function fecharModal() {
   document.body.style.overflow = '';
 }
 
-/* ─────────────────────────────────────────
-   MODAL — SALVAR / EXCLUIR
-   ✅ Fix: alert() substituído por mostrarToast()
-───────────────────────────────────────── */
 async function salvarCliente() {
   let valido = true;
   if (!el.campoEmpresa.value.trim()) {
@@ -523,7 +497,6 @@ async function salvarCliente() {
 
   const id = el.campoId.value;
   let error;
-
   if (id) {
     ({ error } = await db.from('clientes').update(payload).eq('id', id));
   } else {
@@ -569,12 +542,241 @@ async function excluirCliente() {
   fetchClientes();
 }
 
+/* ═══════════════════════════════════════════
+   MÓDULO LEADS
+   ─ fetchLeads, renderizarLeads, badge, drawer,
+     marcar como lido, modal de detalhe
+═══════════════════════════════════════════ */
+
+/** Busca todos os leads do Supabase e atualiza o estado + badge */
+async function fetchLeads() {
+  const { data, error } = await db
+    .from('contatos')
+    .select('id, nome, mensagem, criado_em, lido')
+    .order('criado_em', { ascending: false });
+
+  if (error) {
+    log.error('Erro ao buscar leads:', error);
+    return;
+  }
+
+  todosLeads = data ?? [];
+  atualizarBadgeLeads();
+
+  // Se o drawer estiver aberto, re-renderiza
+  if (el.leadsOverlay.classList.contains('open')) {
+    renderizarLeads();
+  }
+}
+
+/** Atualiza o badge de não lidos no botão do header */
+function atualizarBadgeLeads() {
+  const naoLidos = todosLeads.filter(l => !l.lido).length;
+  if (naoLidos > 0) {
+    el.leadsBadge.textContent = naoLidos > 99 ? '99+' : String(naoLidos);
+    el.leadsBadge.classList.remove('hidden');
+  } else {
+    el.leadsBadge.classList.add('hidden');
+  }
+}
+
+/** Renderiza a lista de leads no drawer conforme filtro ativo */
+function renderizarLeads() {
+  const lista = filtroLeadAtual === 'nao-lidos'
+    ? todosLeads.filter(l => !l.lido)
+    : filtroLeadAtual === 'lidos'
+      ? todosLeads.filter(l => l.lido)
+      : todosLeads;
+
+  // Atualiza badge do total exibido
+  const naoLidos = todosLeads.filter(l => !l.lido).length;
+  if (naoLidos > 0) {
+    el.leadsTotalBadge.textContent = `${naoLidos} não lido${naoLidos !== 1 ? 's' : ''}`;
+    el.leadsTotalBadge.classList.remove('hidden');
+  } else {
+    el.leadsTotalBadge.classList.add('hidden');
+  }
+
+  el.leadsLista.innerHTML = '';
+
+  if (lista.length === 0) {
+    el.leadsLista.innerHTML = `
+      <div class="leads-vazio">
+        <span class="leads-vazio-icone">${filtroLeadAtual === 'nao-lidos' ? '🎉' : '📭'}</span>
+        <p>${filtroLeadAtual === 'nao-lidos' ? 'Nenhuma mensagem não lida!' : 'Nenhuma mensagem encontrada.'}</p>
+      </div>
+    `;
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  lista.forEach(lead => frag.appendChild(criarItemLead(lead)));
+  el.leadsLista.appendChild(frag);
+}
+
+/** Cria o elemento de um item de lead na lista */
+function criarItemLead(lead) {
+  const div = document.createElement('div');
+  div.className = `lead-item${lead.lido ? ' lead-lido' : ''}`;
+  div.setAttribute('role', 'button');
+  div.setAttribute('tabindex', '0');
+
+  const resumo = esc(
+    lead.mensagem.length > 80
+      ? lead.mensagem.slice(0, 80) + '…'
+      : lead.mensagem
+  );
+
+  div.innerHTML = `
+    <div class="lead-item-left">
+      <div class="lead-dot ${lead.lido ? 'lead-dot-lido' : 'lead-dot-novo'}"></div>
+    </div>
+    <div class="lead-item-body">
+      <div class="lead-item-header">
+        <span class="lead-nome">${esc(lead.nome)}</span>
+        <span class="lead-data">${formatarDataHora(lead.criado_em)}</span>
+      </div>
+      <p class="lead-resumo">${resumo}</p>
+    </div>
+  `;
+
+  const abrir = () => abrirModalLead(lead);
+  div.addEventListener('click', abrir);
+  div.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); } });
+
+  return div;
+}
+
+/** Abre o modal de detalhe do lead e o marca como lido */
+async function abrirModalLead(lead) {
+  leadAbertoAtual = lead;
+
+  el.leadModalTitulo.textContent = `Mensagem de ${lead.nome}`;
+  el.leadModalBody.innerHTML = `
+    <div class="lead-detalhe-meta">
+      <span>👤 <strong>${esc(lead.nome)}</strong></span>
+      <span>🕐 ${formatarDataHora(lead.criado_em)}</span>
+    </div>
+    <div class="lead-detalhe-msg">${esc(lead.mensagem)}</div>
+  `;
+
+  // Configurar botão WhatsApp — abre conversa genérica sem número
+  // (o lead não fornece telefone; o admin entra em contato manualmente)
+  el.btnLeadWpp.onclick = () => {
+    const msg = encodeURIComponent(
+      `Olá, ${lead.nome}! Recebemos sua mensagem enviada pelo nosso site e gostaríamos de conversar sobre sua necessidade. Podemos ajudar?`
+    );
+    // Abre WhatsApp Web sem número pré-definido para o admin digitar
+    window.open(`https://wa.me/?text=${msg}`, '_blank', 'noopener,noreferrer');
+  };
+
+  el.modalLead.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Marcar como lido se ainda não estiver
+  if (!lead.lido) {
+    await marcarLeadComoLido(lead.id);
+  }
+}
+
+function fecharModalLead() {
+  el.modalLead.classList.remove('open');
+  document.body.style.overflow = '';
+  leadAbertoAtual = null;
+}
+
+/** Marca um lead como lido no Supabase e atualiza estado local */
+async function marcarLeadComoLido(id) {
+  const { error } = await db
+    .from('contatos')
+    .update({ lido: true, lido_em: new Date().toISOString() })
+    .eq('id', id);
+
+  if (error) {
+    log.error('Erro ao marcar lead como lido:', error);
+    return;
+  }
+
+  // Atualiza estado local sem re-fetch
+  const idx = todosLeads.findIndex(l => l.id === id);
+  if (idx !== -1) todosLeads[idx].lido = true;
+
+  atualizarBadgeLeads();
+  renderizarLeads();
+}
+
+/** Marca TODOS os leads visíveis como lidos em um único update */
+async function marcarTodosLeadsComoLidos() {
+  const naoLidos = todosLeads.filter(l => !l.lido);
+  if (naoLidos.length === 0) {
+    mostrarToast('Todos os leads já estão marcados como lidos.', 'info');
+    return;
+  }
+
+  el.btnLeadsMarcarTodos.disabled    = true;
+  el.btnLeadsMarcarTodos.textContent = 'Marcando...';
+
+  const { error } = await db
+    .from('contatos')
+    .update({ lido: true, lido_em: new Date().toISOString() })
+    .eq('lido', false);
+
+  el.btnLeadsMarcarTodos.disabled    = false;
+  el.btnLeadsMarcarTodos.textContent = '✓ Todos lidos';
+
+  if (error) {
+    log.error('Erro ao marcar todos como lidos:', error);
+    mostrarToast('Erro ao atualizar leads.', 'error');
+    return;
+  }
+
+  // Atualiza estado local
+  todosLeads.forEach(l => { l.lido = true; });
+  atualizarBadgeLeads();
+  renderizarLeads();
+  mostrarToast(`${naoLidos.length} lead${naoLidos.length !== 1 ? 's' : ''} marcado${naoLidos.length !== 1 ? 's' : ''} como lido.`, 'success');
+}
+
+/** Abre o drawer de leads */
+function abrirDrawerLeads() {
+  el.leadsOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderizarLeads();
+}
+
+/** Fecha o drawer de leads */
+function fecharDrawerLeads() {
+  el.leadsOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ─────────────────────────────────────────
+   REALTIME — escuta novos leads
+───────────────────────────────────────── */
+function iniciarRealtimeLeads() {
+  db.channel('leads-realtime')
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'contatos',
+    }, (payload) => {
+      // Adiciona o novo lead no topo da lista local
+      todosLeads.unshift(payload.new);
+      atualizarBadgeLeads();
+      if (el.leadsOverlay.classList.contains('open')) {
+        renderizarLeads();
+      }
+      mostrarToast('📩 Novo lead recebido!', 'info');
+    })
+    .subscribe();
+}
+
 /* ─────────────────────────────────────────
    INICIALIZAÇÃO
 ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
 
-  // 1. Controle de versão — remoção seletiva de localStorage
+  // 1. Controle de versão
   const lastVersion = localStorage.getItem('linkpy_version');
   if (lastVersion !== APP_VERSION) {
     Object.keys(localStorage)
@@ -583,12 +785,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('linkpy_version', APP_VERSION);
   }
 
-  // 2. Auth (via módulo compartilhado auth.js)
-  //    initAuth verifica sessão ativa e configura o form de login
+  // 2. Auth
   await initAuth(db, () => {
     el.loginContainer.classList.add('hidden');
     el.adminWrapper.classList.remove('hidden');
     fetchClientes();
+    fetchLeads();
+    iniciarRealtimeLeads();
   });
 
   // 3. Logout
@@ -596,13 +799,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 4. Toolbar
   el.btnNovoCliente.addEventListener('click', abrirModalNovo);
+  el.btnFinanceiro.addEventListener('click', () => { window.location.href = 'financeiro.html'; });
 
-  // ✅ Fix: redireciona para financeiro.html em vez de alert() placeholder
-  el.btnFinanceiro.addEventListener('click', () => {
-    window.location.href = 'financeiro.html';
+  // 5. LEADS — drawer
+  el.btnLeads.addEventListener('click', abrirDrawerLeads);
+  el.btnLeadsFechar.addEventListener('click', fecharDrawerLeads);
+  el.btnLeadsMarcarTodos.addEventListener('click', marcarTodosLeadsComoLidos);
+
+  // Fechar drawer ao clicar no overlay
+  el.leadsOverlay.addEventListener('click', (e) => {
+    if (e.target === el.leadsOverlay) fecharDrawerLeads();
   });
 
-  // 5. Busca com debounce
+  // Filtros do drawer
+  document.querySelectorAll('.leads-filtro-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.leads-filtro-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtroLeadAtual = btn.dataset.filtro;
+      renderizarLeads();
+    });
+  });
+
+  // Modal lead detalhe
+  el.btnLeadModalFechar.addEventListener('click',  fecharModalLead);
+  el.btnLeadModalFechar2.addEventListener('click', fecharModalLead);
+  el.modalLead.addEventListener('click', (e) => {
+    if (e.target === el.modalLead) fecharModalLead();
+  });
+
+  // 6. Busca com debounce
   let debounceTimer;
   el.searchInput.addEventListener('input', (e) => {
     clearTimeout(debounceTimer);
@@ -613,18 +839,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 280);
   });
 
-  // 6. Modal
+  // 7. Modal cliente
   el.modalFechar.addEventListener('click', fecharModal);
   el.btnCancelar.addEventListener('click', fecharModal);
   el.btnSalvar.addEventListener('click', salvarCliente);
   el.btnExcluir.addEventListener('click', excluirCliente);
-
   el.modalOverlay.addEventListener('click', (e) => {
     if (e.target === el.modalOverlay) fecharModal();
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && el.modalOverlay.classList.contains('open')) fecharModal();
+    if (e.key === 'Escape') {
+      if (el.modalLead.classList.contains('open'))    { fecharModalLead();    return; }
+      if (el.leadsOverlay.classList.contains('open')) { fecharDrawerLeads();  return; }
+      if (el.modalOverlay.classList.contains('open')) { fecharModal();        return; }
+    }
   });
 
   el.btnToggleKey.addEventListener('click', () => {
